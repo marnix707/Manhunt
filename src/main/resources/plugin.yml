@@ -1,0 +1,13 @@
+name: Manhunt
+version: ${project.version}
+main: me.marplayz.manhunt.ManhuntPlugin
+api-version: 1.18
+authors:  [ MarPlayz ]
+description: A fun hunting-based game
+permission-message: Seems like you can not do that!
+prefix: Manhunt
+commands:
+  Manhunt:
+    description: Hunt a speedrunner
+    aliases: [mh]
+    usage: "'/Manhunt Info' or '/mh'"

@@ -1,0 +1,78 @@
+#################################################################################
+#                                                                               #
+#                                 Manhunt 1.1.7                                 #
+#                                 By:  Marplayz                                 #
+#                                                                               #
+#                                                                               #
+#                           Info:  http://bit.fly/707                           #
+#################################################################################
+
+
+#Amount of seconds before the Speed runner may start.
+start-countdown: 4
+
+#Amount of seconds the hunter will stay rooted.
+hunter-cooldown: 15
+
+#auto end game:
+auto-end: true
+auto-end-minutes: 1
+
+#In minutes, tell runner the distance
+distance-check: true
+distance-timer: 10
+#Tell the hunter the distance, "distance-check" must be true
+distance-check-hunter: true
+
+#Set a cooldown on the compass in seconds
+compass-cooldown: true
+compass-cooldown-amount: 10
+#Make the compass point to the portal the runner left in.
+#If false it will point to the latest location in normal world.
+compass-portal: true
+
+#Allow to start without enough people
+force-start: true
+
+difficulty: NORMAL
+
+#Start sound [All caps] i.e. ENTITY_WITHER_DEATH, AMBIENT_CAVE, ENTITY_PLAYER_LEVELUP
+start-sound: ENTITY_PLAYER_LEVELUP
+runner-death-sound: ENTITY_LIGHTNING_BOLT_THUNDER
+
+#Hunter respawn in random range:
+regional-respawn: true
+runner-respawns: 0
+
+#Hunter respawn in random range near the portal when dying in the nether:
+regional-portal-respawn: true
+
+#receive rewards as runner for killing hunters
+runner-kill-reward: true
+
+#Respawn range (Minimal difference 5)
+max-range: 100
+min-range: 50
+
+#Keep inventory
+runner-inv-keep: true
+hunter-inv-keep: true
+
+#Starting kits
+wood-sword-runner: false
+wood-sword-hunter: false
+
+stone-pick-runner: false
+stone-pick-hunter: false
+
+bow-runner: false
+bow-hunter: false
+
+food-runner: false
+food-hunter: false
+
+emp: false
+emp-timer: 30
+
+#Custom messages:
+prefix: "&e[&d&lManhunt&r&e] "

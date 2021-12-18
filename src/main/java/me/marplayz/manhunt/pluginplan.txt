@@ -1,0 +1,41 @@
+Plugin Ideas:
+ - Permissions
+ - Skills
+ - Multiplayer (!)
+ - Shop/Coin/Xp System
+ - Tabcompletion - Team Chat
+ - Runner Fortress Tracker (Not possible?)
+ - Enderdragon Killed Title
+
+ - Animations on scoreboard? (pls dont)
+
+Bugs:
+ - dead in end
+ - portal compass end portal?
+ - Nicknames?
+
+Current Features:
+ - Singleplayer
+ - Scoreboard
+ - Config System
+ - GUI Menus
+ - Custom Items
+ - Lobby System
+ - Respawn and Reward System
+ - Advanced Compass Locator
+ - Action Bar Cooldown
+
+Plugin Name Ideas:
+ - Manhunt
+ - Advanced Manhunt
+ - Manhunt Advanced
+ - Manhunt+ (!)
+ - Manhunt
+ - Tactical Hunt
+ - Predator Hunt
+ - Predators and Prey
+ - Predators-Prey
+ - Prey Drive
+
+ Sources:
+  - https://www.spigotmc.org/resources/manhunt-1-16x-1-18x.86708/updates - Manhunt+
