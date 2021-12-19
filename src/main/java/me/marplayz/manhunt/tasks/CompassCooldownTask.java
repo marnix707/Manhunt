@@ -5,6 +5,7 @@ import me.marplayz.manhunt.manager.GameManager;
 import me.marplayz.manhunt.manager.GameState;
 import me.marplayz.manhunt.util.Team;
 import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -20,12 +21,14 @@ public class CompassCooldownTask extends BukkitRunnable {
 
 	private int timeLeft = ManhuntPlugin.compassCooldownConfig * 10;
 
+	private BaseComponent[] bc;
+
 	@Override
 	public void run() {
 		if(gameManager.getGameState().equals(GameState.LOBBY)){
 			for (Player p : Bukkit.getOnlinePlayers()) {
 				if (Team.getTeam(p) != null && Team.getTeam(p).getName().equalsIgnoreCase("Hunter")) {
-					p.sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(""));
+					//p.sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(""));
 				}
 			}
 			cancel();
@@ -35,7 +38,8 @@ public class CompassCooldownTask extends BukkitRunnable {
 			//timeLeft = ManhuntPlugin.compassCooldownConfig * 10;
 			for (Player p : Bukkit.getOnlinePlayers()) {
 				if (Team.getTeam(p) != null && Team.getTeam(p).getName().equalsIgnoreCase("Hunter")) {
-					p.sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.GREEN + "Compass Ready"));
+					bc = TextComponent.fromLegacyText(ChatColor.GREEN + "Compass Ready");
+					p.spigot().sendMessage(ChatMessageType.ACTION_BAR,bc);
 				}
 			}
 			cancel();
@@ -43,7 +47,8 @@ public class CompassCooldownTask extends BukkitRunnable {
 		}
 		for (Player p : Bukkit.getOnlinePlayers()) {
 			if (Team.getTeam(p) != null && Team.getTeam(p).getName().equalsIgnoreCase("Hunter")) {
-				p.sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(ChatColor.RED + "Compass back in: " + (double)timeLeft/10 + " S"));
+				bc = TextComponent.fromLegacyText(ChatColor.RED + "Compass back in: " + (double)timeLeft/10 + " S");
+				p.spigot().sendMessage(ChatMessageType.ACTION_BAR, bc);
 			}
 		}
 		timeLeft--;

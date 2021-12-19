@@ -93,7 +93,7 @@ public class CompassListener implements Listener {
 
                 //send message
                 p.sendMessage(prefix + ChatColor.RED + "No Speedrunner found! ");
-                //p.sendMessage(quitMessage);
+                p.spigot().sendMessage(quitMessage);
                 return;
             }
 

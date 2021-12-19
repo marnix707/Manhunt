@@ -19,7 +19,7 @@ public class DistanceCheckTask extends BukkitRunnable {
 		this.gameManager = gameManager;
 	}
 
-	public BossBar distanceCountdownBar = Bukkit.createBossBar(ChatColor.BLUE + "" + ChatColor.BOLD + "DISTANCE CHECK IN", BarColor.YELLOW, BarStyle.SOLID);
+	public BossBar distanceCountdownBar = Bukkit.createBossBar(ChatColor.BLUE + "" + ChatColor.BOLD + "DISTANCE CHECK IN", BarColor.GREEN, BarStyle.SOLID);
 
 	private final String prefix = ManhuntPlugin.prefix;
 
@@ -54,7 +54,7 @@ public class DistanceCheckTask extends BukkitRunnable {
 
 	public void distanceCheck(Player runner) {
 		double distance = getDistance(runner);
-		String distanceMessage = prefix + ChatColor.GOLD + maxTimeLeft + " minutes have passed. Distance is " + (int) distance + "";
+		String distanceMessage = prefix + ChatColor.GOLD + maxTimeLeft/(60*20) + " minutes have passed. Distance is " + (int) distance + "";
 		String distanceMessageWorld = prefix + ChatColor.GOLD + "You and the hunter are not in the same world.";
 		String distanceMessageWorldHunter = prefix + ChatColor.GOLD + "You and the runner are not in the same world.";
 

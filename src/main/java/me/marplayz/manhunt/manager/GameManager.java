@@ -1,6 +1,7 @@
 package me.marplayz.manhunt.manager;
 
 import me.marplayz.manhunt.GUI.*;
+import me.marplayz.manhunt.listeners.CompassListener;
 import me.marplayz.manhunt.listeners.EMPListener;
 import me.marplayz.manhunt.listeners.PlayerJoinListener;
 import me.marplayz.manhunt.util.InfoBoard;
@@ -38,6 +39,7 @@ public class GameManager {
 	private GameModeManager gameModeManager;
 	private GameModeMenu gameMode;
 	private CompassMenu compassMenu;
+	private CompassListener compassListener;
 
 	private GameState gameState = GameState.LOBBY;
 
@@ -56,6 +58,7 @@ public class GameManager {
 		this.deathListener = new DeathListener(this);
 		this.kitsMenu = new KitsMenu(this);
 		this.compassMenu = new CompassMenu(this);
+		this.compassListener = new CompassListener(this);
 	}
 
 	public int hunterTeamSize = 0;
@@ -196,6 +199,8 @@ public class GameManager {
 	public InfoBoard getInfoBoard() {
 		return infoBoard;
 	}
+
+	public CompassListener getCompassListener(){return compassListener;}
 
 
 	//menus

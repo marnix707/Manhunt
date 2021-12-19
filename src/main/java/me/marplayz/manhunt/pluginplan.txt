@@ -1,7 +1,6 @@
 Plugin Ideas:
  - Permissions
  - Skills
- - Multiplayer (!)
  - Shop/Coin/Xp System
  - Tabcompletion - Team Chat
  - Runner Fortress Tracker (Not possible?)
@@ -9,6 +8,8 @@ Plugin Ideas:
  - settings command with perm
  - creative mode with kits
  - Animations on scoreboard? (pls dont)
+ - NMS version control
+ - config comments
 
 Bugs:
  - dead in end
@@ -16,7 +17,9 @@ Bugs:
  - Nicknames?
 
 Current Features:
+ - Version: 1.18.1
  - Singleplayer
+ - Multiplayer
  - Scoreboard
  - Config System
  - GUI Menus

@@ -122,7 +122,7 @@ public class SettingMenu implements Listener {
 		kitsMenu.setItemMeta(kitsMenuMeta);
 
 		//compass portal
-		ItemStack pearl = new ItemStack(Material.ENDER_PEARL);
+		ItemStack pearl = new ItemStack(Material.OBSIDIAN);
 		ItemMeta pearlMeta = pearl.getItemMeta();
 
 		pearlMeta.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD + "Compass Portal Off");
@@ -130,7 +130,7 @@ public class SettingMenu implements Listener {
 				ChatColor.BLUE + "portal the runner left in. "));
 		pearl.setItemMeta(pearlMeta);
 
-		ItemStack ender = new ItemStack(Material.ENDER_EYE);
+		ItemStack ender = new ItemStack(Material.CRYING_OBSIDIAN);
 		ItemMeta enderMeta = pearl.getItemMeta();
 
 		enderMeta.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "Compass Portal On");
@@ -539,12 +539,12 @@ public class SettingMenu implements Listener {
 				if (event.getCurrentItem().getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.GOLD + "" + ChatColor.BOLD + "Go back to Menu")) {
 					p.performCommand("mh");
 					//force start
-				} else if (event.getCurrentItem().getType() == Material.ENDER_EYE) {
+				} else if (event.getCurrentItem().getType() == Material.OBSIDIAN) {
 					gameManager.getPlugin().getConfig().set("compass-portal", "false");
 					gameManager.getPlugin().saveConfig();
 					gameManager.getPlugin().reloadConfig();
 					OpenSettings(p);
-				} else if (event.getCurrentItem().getType() == Material.ENDER_PEARL) {
+				} else if (event.getCurrentItem().getType() == Material.CRYING_OBSIDIAN) {
 					gameManager.getPlugin().getConfig().set("compass-portal", "true");
 					gameManager.getPlugin().saveConfig();
 					gameManager.getPlugin().reloadConfig();

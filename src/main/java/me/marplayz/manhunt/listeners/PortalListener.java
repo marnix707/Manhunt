@@ -44,7 +44,7 @@ public class PortalListener implements Listener {
 			if (event.getFrom().getWorld().getEnvironment().equals(World.Environment.NORMAL) && event.getTo().getWorld().getEnvironment().equals(World.Environment.NETHER)
 					&& Team.getTeam(event.getPlayer()).getName().equals("Runner")) {
 				Player p = event.getPlayer();
-				locationPortalRunner = event.getFrom().toBlockLocation();
+				locationPortalRunner = event.getFrom();
 				p.sendMessage(prefix + ChatColor.GOLD + "Portal tracked");
 			}
 		}
@@ -57,7 +57,7 @@ public class PortalListener implements Listener {
 			if (event.getFrom().getWorld().getEnvironment().equals(World.Environment.NORMAL) && event.getTo().getWorld().getEnvironment().equals(World.Environment.NETHER)
 					&& Team.getTeam(event.getPlayer()).getName().equals("Hunter")) {
 				Player p = event.getPlayer();
-				locationPortalHunter = event.getFrom().toBlockLocation();
+				locationPortalHunter = event.getFrom();
 				p.sendMessage(prefix + ChatColor.GOLD + "We got your back!");
 			}
 		}

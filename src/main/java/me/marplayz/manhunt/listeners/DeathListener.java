@@ -119,7 +119,7 @@ public class DeathListener implements Listener {
 				Location deathLoc = p.getLocation();
 
 				//store before adding new location to it
-				Location deathLocation = deathLoc.toBlockLocation();
+				Location deathLocation = deathLoc;//remove to block location
 				Location newLocation = RandomLocation(deathLoc);
 
 				double distance = deathLocation.distance(newLocation);
@@ -188,7 +188,7 @@ public class DeathListener implements Listener {
 					&& config.getString("regional-portal-respawn").equalsIgnoreCase("true")) {
 
 				//store location portal and get new distance from portal location
-				Location locPortal = PortalListener.locationPortalHunter.toBlockLocation();
+				Location locPortal = PortalListener.locationPortalHunter;
 				Location newLocationPortal = RandomLocation(PortalListener.locationPortalHunter);
 
 				double distance = locPortal.distance(newLocationPortal);

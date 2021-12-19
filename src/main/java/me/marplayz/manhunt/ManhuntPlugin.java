@@ -1,13 +1,10 @@
 package me.marplayz.manhunt;
 
-import me.marplayz.manhunt.GUI.KitsMenu;
-import me.marplayz.manhunt.GUI.MainMenu;
-import me.marplayz.manhunt.GUI.SettingMenu;
+import me.marplayz.manhunt.GUI.*;
 import me.marplayz.manhunt.commands.ManhuntCommand;
 import me.marplayz.manhunt.util.CustomConfigs;
 import me.marplayz.manhunt.listeners.*;
 import me.marplayz.manhunt.manager.GameManager;
-import me.marplayz.manhunt.GUI.GameModeMenu;
 import me.marplayz.manhunt.manager.PlayerManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -49,6 +46,7 @@ public final class ManhuntPlugin extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new LobbyListener(gameManager), this);
 		getServer().getPluginManager().registerEvents(new SettingMenu(gameManager), this);
 		getServer().getPluginManager().registerEvents(new MainMenu(gameManager), this);
+		getServer().getPluginManager().registerEvents(new CompassMenu(gameManager), this);
 		getServer().getPluginManager().registerEvents(new GameModeMenu(gameManager), this);
 		getServer().getPluginManager().registerEvents(new KitsMenu(gameManager), this);
 		getServer().getPluginManager().registerEvents(new EMPListener(gameManager), this);

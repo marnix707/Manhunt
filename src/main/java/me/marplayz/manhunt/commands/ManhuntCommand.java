@@ -6,8 +6,6 @@ import me.marplayz.manhunt.ManhuntPlugin;
 import me.marplayz.manhunt.util.Team;
 import me.marplayz.manhunt.manager.GameManager;
 import me.marplayz.manhunt.manager.GameState;
-import net.kyori.adventure.text.Component;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
@@ -132,6 +130,12 @@ public class ManhuntCommand implements CommandExecutor {
 
 			} else if (args[0].equalsIgnoreCase("stop")) {
 				gameManager.setGameState(GameState.STOP);
+				return true;
+			} else if (args[0].equalsIgnoreCase("target")) {
+				if(sender instanceof Player){
+					Player player = (Player) sender;
+					gameManager.getCompassMenu().openCompassMenu(player);
+				}
 				return true;
 			} else {
 				unknownCommand(sender);
