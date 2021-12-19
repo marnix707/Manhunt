@@ -6,7 +6,8 @@ Plugin Ideas:
  - Tabcompletion - Team Chat
  - Runner Fortress Tracker (Not possible?)
  - Enderdragon Killed Title
-
+ - settings command with perm
+ - creative mode with kits
  - Animations on scoreboard? (pls dont)
 
 Bugs:

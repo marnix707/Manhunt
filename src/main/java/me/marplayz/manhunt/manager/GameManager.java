@@ -14,6 +14,7 @@ import me.marplayz.manhunt.tasks.GameStartCountdownTask;
 import me.marplayz.manhunt.tasks.HunterStartCountdownTask;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
+import org.checkerframework.checker.units.qual.C;
 
 import static me.marplayz.manhunt.listeners.DeathListener.runnerDeathsInt;
 
@@ -36,6 +37,7 @@ public class GameManager {
 	private ManhuntCommand manhuntCommand;
 	private GameModeManager gameModeManager;
 	private GameModeMenu gameMode;
+	private CompassMenu compassMenu;
 
 	private GameState gameState = GameState.LOBBY;
 
@@ -53,6 +55,7 @@ public class GameManager {
 		this.gameMode = new GameModeMenu(this);
 		this.deathListener = new DeathListener(this);
 		this.kitsMenu = new KitsMenu(this);
+		this.compassMenu = new CompassMenu(this);
 	}
 
 	public int hunterTeamSize = 0;
@@ -208,7 +211,10 @@ public class GameManager {
 		return settingMenu;
 	}
 
+	public CompassMenu getCompassMenu(){return compassMenu;}
+
 	public GameModeManager getGameModeManager(){return  gameModeManager;}
+
 
 	//Tasks
 	public GameStartCountdownTask getGameStartCountdownTask() {
