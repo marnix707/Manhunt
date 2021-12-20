@@ -1,15 +1,12 @@
 package me.marplayz.manhunt.manager;
 
 import me.marplayz.manhunt.GUI.*;
-import me.marplayz.manhunt.listeners.CompassListener;
-import me.marplayz.manhunt.listeners.EMPListener;
-import me.marplayz.manhunt.listeners.PlayerJoinListener;
+import me.marplayz.manhunt.listeners.*;
 import me.marplayz.manhunt.util.InfoBoard;
 import me.marplayz.manhunt.ManhuntPlugin;
 import me.marplayz.manhunt.util.Team;
 import me.marplayz.manhunt.commands.ManhuntCommand;
 
-import me.marplayz.manhunt.listeners.DeathListener;
 import me.marplayz.manhunt.tasks.DistanceCheckTask;
 import me.marplayz.manhunt.tasks.GameStartCountdownTask;
 import me.marplayz.manhunt.tasks.HunterStartCountdownTask;
@@ -40,6 +37,7 @@ public class GameManager {
 	private GameModeMenu gameMode;
 	private CompassMenu compassMenu;
 	private CompassListener compassListener;
+	private DragonListener dragonListener;
 
 	private GameState gameState = GameState.LOBBY;
 
@@ -59,6 +57,7 @@ public class GameManager {
 		this.kitsMenu = new KitsMenu(this);
 		this.compassMenu = new CompassMenu(this);
 		this.compassListener = new CompassListener(this);
+		this.dragonListener = new DragonListener(this);
 	}
 
 	public int hunterTeamSize = 0;

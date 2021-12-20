@@ -100,6 +100,10 @@ public class GameModeMenu implements Listener {
 		if (event.getCurrentItem() == null || player.getPlayer() == null) {
 			return;
 		}
+		if(!player.hasPermission("manhunt.settings")){
+			player.sendMessage(prefix + "" + ChatColor.RED + "You can not do that!");
+			return;
+		}
 
 		String itemClicked = event.getCurrentItem().getItemMeta().getDisplayName();
 

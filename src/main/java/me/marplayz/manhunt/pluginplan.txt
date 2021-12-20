@@ -1,15 +1,18 @@
 Plugin Ideas:
- - Permissions
  - Skills
  - Shop/Coin/Xp System
  - Tabcompletion - Team Chat
  - Runner Fortress Tracker (Not possible?)
- - Enderdragon Killed Title
- - settings command with perm
+ - Enderdragon Killed Title/Fireworks
  - creative mode with kits
  - Animations on scoreboard? (pls dont)
  - NMS version control
  - config comments
+
+ reward ideas:
+ - heal
+ - invisibility potion
+ - speed
 
 Bugs:
  - dead in end
@@ -28,6 +31,10 @@ Current Features:
  - Respawn and Reward System
  - Advanced Compass Locator
  - Action Bar Cooldown
+
+Current Permissions
+ - manhunt.reload
+ - manhunt.settings
 
 Plugin Name Ideas:
  - Manhunt

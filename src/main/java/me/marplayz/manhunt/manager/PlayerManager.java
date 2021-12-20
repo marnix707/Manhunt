@@ -74,7 +74,6 @@ public class PlayerManager {
 		p.getInventory().clear();
 		healPlayer(p);
 		p.setGameMode(GameMode.ADVENTURE);
-		//gui
 		gameManager.getInventoryManager().GiveLobbyKit(p);
 	}
 
@@ -93,6 +92,9 @@ public class PlayerManager {
 		p.getInventory().clear();
 		p.teleport(Bukkit.getServer().getWorlds().get(0).getSpawnLocation());
 		p.getWorld().setTime(0);
+
+		p.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(getConfig().getInt("runner-max-health"));
+
 		gameManager.getInventoryManager().GiveRunnerKit(p);
 
 		p.playSound(p.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 10, 1);
@@ -125,7 +127,7 @@ public class PlayerManager {
 		p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 20 * potionEffectTime, 50));
 		p.setNoDamageTicks(20*potionEffectTime);
 
-		p.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(22);
+		p.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(getConfig().getInt("hunter-max-health"));
 
 
 		p.getInventory().clear();

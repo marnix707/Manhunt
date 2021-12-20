@@ -6,10 +6,7 @@ import me.marplayz.manhunt.util.CustomConfigs;
 import me.marplayz.manhunt.listeners.*;
 import me.marplayz.manhunt.manager.GameManager;
 import me.marplayz.manhunt.manager.PlayerManager;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.GameRule;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -21,7 +18,7 @@ public final class ManhuntPlugin extends JavaPlugin {
 	public static int respawns;
 	public static int respawnsFinal;
 	public static int startCountdownConfig;
-	public static int hunterCountdownConfig;
+	public int hunterCountdownConfig;
 	public static int compassCooldownConfig;
 	public static int distanceTimer;
 	public static int empTimerConfig;
@@ -54,6 +51,7 @@ public final class ManhuntPlugin extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new CompassListener(gameManager), this);
 		getServer().getPluginManager().registerEvents(new PlayerJoinListener(gameManager), this);
 		getServer().getPluginManager().registerEvents(new DeathListener(gameManager), this);
+		getServer().getPluginManager().registerEvents(new DragonListener(gameManager), this);
 
 
 		for (Player player : Bukkit.getOnlinePlayers()) {
@@ -83,6 +81,7 @@ public final class ManhuntPlugin extends JavaPlugin {
 		//load custom config
 		CustomConfigs.setup();
 		CustomConfigs.get().addDefault("start.runner.items", "WOODEN_AXE");
+		CustomConfigs.get().addDefault("reward.runner.items", "BEEF;10");
 		CustomConfigs.get().options().copyDefaults(true);
 		CustomConfigs.saveCustomConfig();
 

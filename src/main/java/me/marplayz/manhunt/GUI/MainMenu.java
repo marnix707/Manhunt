@@ -93,7 +93,9 @@ public class MainMenu implements Listener {
 
 		menuMain.setItem(29, crossbowItem);
 		menuMain.setItem(33, dragonHead);
-		menuMain.setItem(49, bookItem);
+		if(p.hasPermission("manhunt.settings")) {
+			menuMain.setItem(49, bookItem);
+		}
 		if(gameManager.getGameState() != GameState.LOBBY) {
 			menuMain.setItem(53, redItem);
 		}

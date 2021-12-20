@@ -54,6 +54,10 @@ runner-kill-reward: true
 max-range: 100
 min-range: 50
 
+#Max Health (Default = 20, 1 hearth = 2 points)
+runner-max-health: 20
+hunter-max-health: 20
+
 #Keep inventory
 runner-inv-keep: true
 hunter-inv-keep: true
