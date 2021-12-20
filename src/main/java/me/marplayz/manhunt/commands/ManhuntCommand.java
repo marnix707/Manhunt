@@ -133,6 +133,10 @@ public class ManhuntCommand implements CommandExecutor {
                 return true;
 
             } else if (args[0].equalsIgnoreCase("stop")) {
+                if(gameManager.getGameState() == GameState.LOBBY){
+                    sender.sendMessage(prefix + ChatColor.GREEN + "No active game");
+                    return true;
+                }
                 gameManager.setGameState(GameState.STOP);
                 return true;
             } else if (args[0].equalsIgnoreCase("target")) {

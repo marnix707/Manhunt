@@ -86,19 +86,19 @@ public class MainMenu implements Listener {
 
 		//Set items in menu
 		if ((gameManager.runnerTeamSize > 0 && gameManager.hunterTeamSize > 0)) {
-			menuMain.setItem(45, greenItem);
+			menuMain.setItem(49, greenItem);
 		} else {
-			menuMain.setItem(45, green0Item);
+			menuMain.setItem(49, green0Item);
 		}
 
 		menuMain.setItem(29, crossbowItem);
 		menuMain.setItem(33, dragonHead);
 		if(p.hasPermission("manhunt.settings")) {
-			menuMain.setItem(49, bookItem);
+			menuMain.setItem(53, bookItem);
 		}
-		if(gameManager.getGameState() != GameState.LOBBY) {
+/*		if(gameManager.getGameState() != GameState.LOBBY) {
 			menuMain.setItem(53, redItem);
-		}
+		}*/
 
 		GameModeMenu.placeGamemode(menuMain);
 

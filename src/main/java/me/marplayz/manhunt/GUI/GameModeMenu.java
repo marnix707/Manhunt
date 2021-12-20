@@ -3,6 +3,7 @@ package me.marplayz.manhunt.GUI;
 import me.marplayz.manhunt.ManhuntPlugin;
 import me.marplayz.manhunt.manager.GameManager;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -97,7 +98,7 @@ public class GameModeMenu implements Listener {
 			return;
 		}
 		event.setCancelled(true);
-		if (event.getCurrentItem() == null || player.getPlayer() == null) {
+		if (event.getCurrentItem() == null || player.getPlayer() == null || event.getCurrentItem().getType() != Material.PLAYER_HEAD) {
 			return;
 		}
 		if(!player.hasPermission("manhunt.settings")){
