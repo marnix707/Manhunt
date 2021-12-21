@@ -11,6 +11,7 @@ import me.marplayz.manhunt.listeners.DeathListener;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -101,7 +102,8 @@ public class SettingMenu implements Listener {
 		ItemMeta clockMeta = clock.getItemMeta();
 
 		clockMeta.setDisplayName(ChatColor.GOLD + "" + ChatColor.BOLD + "Set Hunter Cooldown");
-		clockMeta.setLore(Arrays.asList("", ChatColor.BLUE + "Currently set to " + gameManager.getPlugin().getConfig().getString("hunter-cooldown") + " seconds"));
+		clockMeta.setLore(Arrays.asList("",ChatColor.GRAY +"" +ChatColor.ITALIC + "   ⌚: "+ gameManager.getPlugin().getConfig().getString("hunter-cooldown")
+				+ ChatColor.GRAY + ""+ ChatColor.ITALIC + " second(s)"));
 
 		clock.setItemMeta(clockMeta);
 
@@ -144,29 +146,19 @@ public class SettingMenu implements Listener {
 
 		if (gameManager.getPlugin().getConfig().getString("compass-cooldown").equalsIgnoreCase("true")) {
 			compassMeta.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + ("Compass cooldown is On"));
-			compassMeta.setLore(Arrays.asList("", ChatColor.BLUE + "Currently set to " + ChatColor.BLUE + gameManager.getPlugin().getConfig().getString("compass-cooldown-amount")
-					+ ChatColor.BLUE + " seconds"));
+			compassMeta.setLore(Arrays.asList("",ChatColor.GRAY +"" +ChatColor.ITALIC + "   ⌚: "+ gameManager.getPlugin().getConfig().getString("compass-cooldown-amount")
+					+ ChatColor.GRAY + ""+ ChatColor.ITALIC + " second(s)"));
 		} else {
 			compassMeta.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD + ("Compass Cooldown Off"));
 		}
 		compass.setItemMeta(compassMeta);
 
 		//Distance check
-		ItemStack stick = new ItemStack(Material.STICK);
-		ItemMeta stickMeta = stick.getItemMeta();
+		ItemStack distanceItem = new ItemStack(Material.SPYGLASS);
+		ItemMeta distanceMeta = distanceItem.getItemMeta();
 
-		stickMeta.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD + "Distance Check Off");
-		stick.setItemMeta(stickMeta);
-
-		ItemStack rod = new ItemStack(Material.BLAZE_ROD);
-		ItemMeta rodMeta = rod.getItemMeta();
-
-		rodMeta.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "Distance Check On");
-		rodMeta.setLore(Arrays.asList("", ChatColor.BLUE + "Runner Distance Check set to " + ChatColor.GOLD + "" + ChatColor.BOLD + gameManager.getPlugin().getConfig().getString("distance-check").toUpperCase(),
-				ChatColor.BLUE + "Hunter Distance Check set to " + ChatColor.GOLD + "" + ChatColor.BOLD + gameManager.getPlugin().getConfig().getString("distance-check-hunter").toUpperCase(), "",
-				ChatColor.BLUE + "Currently set to " + ChatColor.BLUE + gameManager.getPlugin().getConfig().getString("distance-timer")
-						+ ChatColor.BLUE + " minutes"));
-		rod.setItemMeta(rodMeta);
+		distanceMeta.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD + "Distance Check Off");
+		distanceItem.setItemMeta(distanceMeta);
 
 		String distanceCheck = gameManager.getPlugin().getConfig().getString("distance-check");
 
@@ -223,38 +215,51 @@ public class SettingMenu implements Listener {
 		chest.setItemMeta(chestMeta);
 
 		//Life system
-		ItemStack gapple = new ItemStack(Material.ENCHANTED_GOLDEN_APPLE);
-		ItemMeta gappleMeta = book.getItemMeta();
+		ItemStack rewspawnItem = new ItemStack(Material.TOTEM_OF_UNDYING);
+		ItemMeta rewspawnMeta = rewspawnItem.getItemMeta();
 
-		gappleMeta.setDisplayName(ChatColor.GOLD + "" + ChatColor.BOLD + "Runner Respawns");
-		gapple.setItemMeta(gappleMeta);
+		rewspawnMeta.setDisplayName(ChatColor.GOLD + "" + ChatColor.BOLD + "Runner Respawns");
+		rewspawnMeta.setLore(Arrays.asList( "",	ChatColor.GRAY + "" + ChatColor.ITALIC +  "   ❤: " + gameManager.getPlugin().getConfig().getString("runner-respawns")
+						+ ChatColor.GRAY + "" + ChatColor.ITALIC+ "x"));
+		rewspawnItem.setItemMeta(rewspawnMeta);
 
 		//place items
-		menuSettings.setItem(10, compass);
-		menuSettings.setItem(16, chest);
-		menuSettings.setItem(45, book);
-		menuSettings.setItem(53, gapple);
-		menuSettings.setItem(12, clock);
-		menuSettings.setItem(32, kitsMenu);
-		menuSettings.setItem(34, reward);
+		menuSettings.setItem(1, compass);
+		menuSettings.setItem(5, clock);
+		menuSettings.setItem(7, rewspawnItem);
+		menuSettings.setItem(23, reward);
+		menuSettings.setItem(25, kitsMenu);
+		menuSettings.setItem(37, chest);
+		menuSettings.setItem(53, book);
+
 
 		if (distanceCheck.equalsIgnoreCase("true")) {
-			menuSettings.setItem(14, rod);
+			distanceMeta.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "Distance Check On");
+			distanceMeta.setLore(Arrays.asList("", ChatColor.BLUE + "Runner Distance Check set to " + ChatColor.GOLD + "" + ChatColor.BOLD + gameManager.getPlugin().getConfig().getString("distance-check").toUpperCase(),
+					ChatColor.BLUE + "Hunter Distance Check set to " + ChatColor.GOLD + "" + ChatColor.BOLD + gameManager.getPlugin().getConfig().getString("distance-check-hunter").toUpperCase(), "",
+					ChatColor.GRAY + "" + ChatColor.ITALIC +  "   ⌚: " + gameManager.getPlugin().getConfig().getString("distance-timer")
+							+ ChatColor.GRAY + "" + ChatColor.ITALIC+ " minute(s)"));
+
+			distanceItem.setItemMeta(distanceMeta);
+			menuSettings.setItem(3, distanceItem);
 		} else {
-			menuSettings.setItem(14, stick);
+			distanceMeta.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD + "Distance Check Off");
+			distanceMeta.setLore(null);
+			distanceItem.setItemMeta(distanceMeta);
+			menuSettings.setItem(3, distanceItem);
 		}
 
 		if (regionalRespawn.equalsIgnoreCase("true")) {
-			menuSettings.setItem(30, greenBed)
+			menuSettings.setItem(21, greenBed)
 			;
 		} else {
-			menuSettings.setItem(30, redBed);
+			menuSettings.setItem(21, redBed);
 		}
 
 		if (compassPortal.equalsIgnoreCase("true")) {
-			menuSettings.setItem(28, ender);
+			menuSettings.setItem(19, ender);
 		} else {
-			menuSettings.setItem(28, pearl);
+			menuSettings.setItem(19, pearl);
 		}
 
 		//fill with glass pane
@@ -275,7 +280,7 @@ public class SettingMenu implements Listener {
 	}
 
 	public void OpenCooldownSettings(Player p) {
-		Inventory cooldownSettings = Bukkit.createInventory(null, 27, menuCooldownTitle);
+		Inventory cooldownSettings = Bukkit.createInventory(null, 36, menuCooldownTitle);
 
 		//Return book
 		ItemStack book = new ItemStack(Material.BOOK);
@@ -285,16 +290,16 @@ public class SettingMenu implements Listener {
 		book.setItemMeta(bookMeta);
 		//compass
 
-		ItemStack cooldown = new ItemStack(Material.CLOCK);
-		ItemMeta cooldownMeta = cooldown.getItemMeta();
+		ItemStack cooldownItem = new ItemStack(Material.PAPER);
+		ItemMeta cooldownMeta = cooldownItem.getItemMeta();
 
 		cooldownMeta.setDisplayName(ChatColor.GOLD + "" + ChatColor.BOLD + "Hunter Cooldown");
 		cooldownMeta.setLore(Arrays.asList("" + ChatColor.BLUE + "Amount of seconds the hunter has to wait before starting ",
 				ChatColor.BLUE + "Set to " + ChatColor.BLUE + gameManager.getPlugin().getConfig().getString("hunter-cooldown") + ChatColor.BLUE + " seconds"));
-		cooldown.setItemMeta(cooldownMeta);
+		cooldownItem.setItemMeta(cooldownMeta);
 
-		cooldownSettings.setItem(0, book);
-		cooldownSettings.setItem(1, cooldown);
+		cooldownSettings.setItem(35, book);
+		cooldownSettings.setItem(0, cooldownItem);
 
 
 		for (int i = 0; i < 18; i++) {
@@ -311,7 +316,7 @@ public class SettingMenu implements Listener {
 		darkPaneMeta.setDisplayName(ChatColor.GRAY + " ");
 		darkPane.setItemMeta(darkPaneMeta);
 
-		for (int i = 0; i < 27; i++) {
+		for (int i = 0; i < 36; i++) {
 			if (cooldownSettings.getItem(i) == null) {
 				cooldownSettings.setItem(i, darkPane);
 			}
@@ -320,7 +325,7 @@ public class SettingMenu implements Listener {
 	}
 
 	public void OpenDistanceSettings(Player p) {
-		Inventory distanceSettings = Bukkit.createInventory(null, 27, menuDistanceTitle);
+		Inventory distanceSettings = Bukkit.createInventory(null, 36, menuDistanceTitle);
 
 		//Return book
 		ItemStack book = new ItemStack(Material.BOOK);
@@ -330,28 +335,9 @@ public class SettingMenu implements Listener {
 		book.setItemMeta(bookMeta);
 
 		//stick and rod item
-		ItemStack stick = new ItemStack(Material.STICK);
-		ItemMeta stickMeta = stick.getItemMeta();
+		ItemStack distanceItem = new ItemStack(Material.PAPER);
+		ItemMeta distanceMeta = distanceItem.getItemMeta();
 
-		ItemStack rod = new ItemStack(Material.BLAZE_ROD);
-		ItemMeta rodMeta = rod.getItemMeta();
-
-		// stick and rod names
-		stickMeta.setDisplayName(ChatColor.GOLD + "" + ChatColor.BOLD + "Distance Check Off");
-		stickMeta.setLore(Arrays.asList(ChatColor.BLUE + "The Speedrunner will get the absolute distance",
-				ChatColor.BLUE + "between him and the hunter every interval", "",
-
-				ChatColor.DARK_GRAY + "" + ChatColor.ITALIC + "Distance check is set to " + "" + ChatColor.DARK_GRAY + "" + ChatColor.ITALIC +
-						gameManager.getPlugin().getConfig().getString("distance-timer") + ChatColor.DARK_GRAY + " minutes"));
-		stick.setItemMeta(stickMeta);
-
-		rodMeta.setDisplayName(ChatColor.GOLD + "" + ChatColor.BOLD + "Distance Check On");
-		rodMeta.setLore(Arrays.asList(ChatColor.BLUE + "The Speedrunner will get the absolute distance",
-				ChatColor.BLUE + "between him and the hunter every interval", "",
-
-				ChatColor.DARK_GRAY + "" + ChatColor.ITALIC + "Distance check is set to " + ChatColor.DARK_GRAY + "" + ChatColor.ITALIC + gameManager.getPlugin().getConfig().getString("distance-timer")
-						+ ChatColor.DARK_GRAY + "" + ChatColor.ITALIC + " minutes"));
-		rod.setItemMeta(rodMeta);
 
 		//Runner and hunter item
 		ItemStack runnerCheck = new ItemStack(Material.DRAGON_HEAD);
@@ -366,13 +352,27 @@ public class SettingMenu implements Listener {
 		//Runner name check
 		if (distanceCheck.equalsIgnoreCase("true")) {
 			runnerCheckMeta.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "Runner Distance Check On");
+			distanceMeta.setDisplayName(ChatColor.GOLD + "" + ChatColor.BOLD + "Distance Check On");
+			distanceMeta.setLore(Arrays.asList(ChatColor.BLUE + "The Speedrunner will get the absolute distance",
+					ChatColor.BLUE + "between him and the hunter every interval", "",
 
-			distanceSettings.setItem(1, rod);
+					ChatColor.DARK_GRAY + "" + ChatColor.ITALIC + "Distance check is set to " + ChatColor.DARK_GRAY + "" + ChatColor.ITALIC + gameManager.getPlugin().getConfig().getString("distance-timer")
+							+ ChatColor.DARK_GRAY + "" + ChatColor.ITALIC + " minutes"));
+			distanceItem.setItemMeta(distanceMeta);
+
 		} else {
 			runnerCheckMeta.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD + "Runner Distance Check Off");
 
-			distanceSettings.setItem(1, stick);
+			distanceMeta.setDisplayName(ChatColor.GOLD + "" + ChatColor.BOLD + "Distance Check Off");
+			distanceMeta.setLore(Arrays.asList(ChatColor.BLUE + "The Speedrunner will get the absolute distance",
+					ChatColor.BLUE + "between him and the hunter every interval", "",
+
+					ChatColor.DARK_GRAY + "" + ChatColor.ITALIC + "Distance check is set to " + "" + ChatColor.DARK_GRAY + "" + ChatColor.ITALIC +
+							gameManager.getPlugin().getConfig().getString("distance-timer") + ChatColor.DARK_GRAY + " minutes"));
+			distanceItem.setItemMeta(distanceMeta);
 		}
+
+
 		//Hunter name check
 		if (distanceCheckHunter.equalsIgnoreCase("true")) {
 			hunterCheckMeta.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "Hunter Distance Check On");
@@ -382,7 +382,8 @@ public class SettingMenu implements Listener {
 		runnerCheck.setItemMeta(runnerCheckMeta);
 		hunterCheck.setItemMeta(hunterCheckMeta);
 
-		distanceSettings.setItem(0, book);
+		distanceSettings.setItem(35, book);
+		distanceSettings.setItem(0, distanceItem);
 		distanceSettings.setItem(4, hunterCheck);
 		distanceSettings.setItem(5, runnerCheck);
 
@@ -401,7 +402,7 @@ public class SettingMenu implements Listener {
 		darkPaneMeta.setDisplayName(ChatColor.WHITE + " ");
 		darkPane.setItemMeta(darkPaneMeta);
 
-		for (int i = 0; i < 27; i++) {
+		for (int i = 0; i < 36; i++) {
 			if (distanceSettings.getItem(i) == null) {
 				distanceSettings.setItem(i, darkPane);
 			}
@@ -410,7 +411,7 @@ public class SettingMenu implements Listener {
 	}
 
 	public void OpenCompassSettings(Player p) {
-		Inventory compassSettings = Bukkit.createInventory(null, 27, menuCompassTitle);
+		Inventory compassSettings = Bukkit.createInventory(null, 36, menuCompassTitle);
 
 		//Return book
 		ItemStack book = new ItemStack(Material.BOOK);
@@ -421,7 +422,7 @@ public class SettingMenu implements Listener {
 
 
 		//Compass
-		ItemStack compass = new ItemStack(Material.COMPASS);
+		ItemStack compass = new ItemStack(Material.PAPER);
 		ItemMeta compassMeta = compass.getItemMeta();
 
 		compassMeta.setDisplayName(ChatColor.GOLD + "" + ChatColor.BOLD + "Compass Cooldown");
@@ -451,8 +452,8 @@ public class SettingMenu implements Listener {
 			compassSettings.setItem(4, compassOff);
 		}
 
-		compassSettings.setItem(0, book);
-		compassSettings.setItem(1, compass);
+		compassSettings.setItem(35, book);
+		compassSettings.setItem(0, compass);
 
 		for (int i = 1; i < 19; i++) {
 			ItemStack sec = new ItemStack(Material.EMERALD);
@@ -469,7 +470,7 @@ public class SettingMenu implements Listener {
 		darkPaneMeta.setDisplayName(ChatColor.WHITE + " ");
 		darkPane.setItemMeta(darkPaneMeta);
 
-		for (int i = 0; i < 27; i++) {
+		for (int i = 0; i < 36; i++) {
 			if (compassSettings.getItem(i) == null) {
 				compassSettings.setItem(i, darkPane);
 			}
@@ -478,7 +479,7 @@ public class SettingMenu implements Listener {
 	}
 
 	private void OpenRespawnMenu(Player p) {
-		Inventory respawnSettings = Bukkit.createInventory(null, 27, respawnMenuTitle);
+		Inventory respawnSettings = Bukkit.createInventory(null, 36, respawnMenuTitle);
 
 		//Return book
 		ItemStack book = new ItemStack(Material.BOOK);
@@ -510,7 +511,7 @@ public class SettingMenu implements Listener {
 			}
 		}
 
-		respawnSettings.setItem(18, book);
+		respawnSettings.setItem(35, book);
 
 		//darken all
 		ItemStack darkPane = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
@@ -518,7 +519,7 @@ public class SettingMenu implements Listener {
 		darkPaneMeta.setDisplayName(ChatColor.WHITE + " ");
 		darkPane.setItemMeta(darkPaneMeta);
 
-		for (int i = 0; i < 27; i++) {
+		for (int i = 0; i < 36; i++) {
 			if (respawnSettings.getItem(i) == null) {
 				respawnSettings.setItem(i, darkPane);
 			}
@@ -540,26 +541,31 @@ public class SettingMenu implements Listener {
 					p.performCommand("mh");
 					//force start
 				} else if (event.getCurrentItem().getType() == Material.OBSIDIAN) {
-					gameManager.getPlugin().getConfig().set("compass-portal", "false");
+					gameManager.getPlugin().getConfig().set("compass-portal", "true");
+					p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_COW_BELL, 10, 1);
 					gameManager.getPlugin().saveConfig();
 					gameManager.getPlugin().reloadConfig();
 					OpenSettings(p);
 				} else if (event.getCurrentItem().getType() == Material.CRYING_OBSIDIAN) {
-					gameManager.getPlugin().getConfig().set("compass-portal", "true");
+					gameManager.getPlugin().getConfig().set("compass-portal", "false");
+					p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_COW_BELL, 10, 0);
 					gameManager.getPlugin().saveConfig();
 					gameManager.getPlugin().reloadConfig();
 					OpenSettings(p);
 					//regional respawn
 				} else if (event.getCurrentItem().getType() == Material.RED_BED) {
 					gameManager.getPlugin().getConfig().set("regional-respawn", "true");
+					p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_COW_BELL, 10, 1);
 					gameManager.getPlugin().saveConfig();
 					gameManager.getPlugin().reloadConfig();
 					OpenSettings(p);
 				} else if (event.getCurrentItem().getType() == SettingMenu.getHead("present").getType()) {
 					if (gameManager.getPlugin().getConfig().getString("runner-kill-reward").equalsIgnoreCase("true")) {
 						gameManager.getPlugin().getConfig().set("runner-kill-reward", "false");
+						p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_COW_BELL, 10, 0);
 					} else {
 						gameManager.getPlugin().getConfig().set("runner-kill-reward", "true");
+						p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_COW_BELL, 10, 1);
 					}
 					gameManager.getPlugin().saveConfig();
 					gameManager.getPlugin().reloadConfig();
@@ -567,12 +573,15 @@ public class SettingMenu implements Listener {
 				} else if (event.getCurrentItem().getType() == Material.GREEN_BED) {
 					if (event.getClick().isLeftClick()) {
 						gameManager.getPlugin().getConfig().set("regional-respawn", "false");
+						p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_COW_BELL, 10, 0);
 						//detect right click
 					} else {
 						if (gameManager.getPlugin().getConfig().get("regional-portal-respawn").equals("true")) {
 							gameManager.getPlugin().getConfig().set("regional-portal-respawn", "false");
+							p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_COW_BELL, 10, 0);
 						} else {
 							gameManager.getPlugin().getConfig().set("regional-portal-respawn", "true");
+							p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_COW_BELL, 10, 1);
 						}
 					}
 					gameManager.getPlugin().saveConfig();
@@ -585,15 +594,19 @@ public class SettingMenu implements Listener {
 					if (event.getClick().isLeftClick()) {
 						if (runnerKeep.equalsIgnoreCase("true")) {
 							gameManager.getPlugin().getConfig().set("runner-inv-keep", "false");
+							p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_COW_BELL, 10, 0);
 						} else {
 							gameManager.getPlugin().getConfig().set("runner-inv-keep", "true");
+							p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_COW_BELL, 10, 1);
 						}
 						//detect right click
 					} else {
 						if (hunterKeep.equalsIgnoreCase("true")) {
 							gameManager.getPlugin().getConfig().set("hunter-inv-keep", "false");
+							p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_COW_BELL, 10, 0);
 						} else {
 							gameManager.getPlugin().getConfig().set("hunter-inv-keep", "true");
+							p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_COW_BELL, 10, 1);
 						}
 					}
 					gameManager.getPlugin().saveConfig();
@@ -609,9 +622,9 @@ public class SettingMenu implements Listener {
 				} else if (event.getCurrentItem().getType() == Material.LEATHER_CHESTPLATE) {
 					gameManager.getKitsMenu().openKitsSettings(p);
 					//distance check
-				} else if (event.getCurrentItem().getType() == Material.STICK || event.getCurrentItem().getType() == Material.BLAZE_ROD) {
+				} else if (event.getCurrentItem().getType() == Material.SPYGLASS) {
 					OpenDistanceSettings(p);
-				} else if (event.getCurrentItem().getType() == Material.ENCHANTED_GOLDEN_APPLE) {
+				} else if (event.getCurrentItem().getType() == Material.TOTEM_OF_UNDYING) {
 					OpenRespawnMenu(p);
 				}
 
@@ -636,11 +649,13 @@ public class SettingMenu implements Listener {
 
 				} else if (event.getCurrentItem().getType() == Material.LIME_CONCRETE) {
 					gameManager.getPlugin().getConfig().set("compass-cooldown", "false");
+					p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_COW_BELL, 10, 0);
 					gameManager.getPlugin().saveConfig();
 					gameManager.getPlugin().reloadConfig();
 					OpenCompassSettings(p);
 				} else if (event.getCurrentItem().getType() == Material.RED_CONCRETE) {
 					gameManager.getPlugin().getConfig().set("compass-cooldown", "true");
+					p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_COW_BELL, 10, 1);
 					gameManager.getPlugin().saveConfig();
 					gameManager.getPlugin().reloadConfig();
 					OpenCompassSettings(p);
@@ -687,16 +702,20 @@ public class SettingMenu implements Listener {
 				} else if (event.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.GREEN + "" + ChatColor.BOLD + "Runner Distance Check On")) {
 					gameManager.getPlugin().getConfig().set("distance-check", "false");
 					gameManager.getPlugin().getConfig().set("distance-check-hunter", "false");
+					p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_COW_BELL, 10, 0);
 				} else if (event.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.RED + "" + ChatColor.BOLD + "Runner Distance Check Off")) {
 					gameManager.getPlugin().getConfig().set("distance-check", "true");
+					p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_COW_BELL, 10, 1);
 				}
 
 				//hunter check
 				if (event.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.GREEN + "" + ChatColor.BOLD + "Hunter Distance Check On")) {
 					gameManager.getPlugin().getConfig().set("distance-check-hunter", "false");
+					p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_COW_BELL, 10, 0);
 				} else if (event.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.RED + "" + ChatColor.BOLD + "Hunter Distance Check Off")) {
 					gameManager.getPlugin().getConfig().set("distance-check-hunter", "true");
 					gameManager.getPlugin().getConfig().set("distance-check", "true");
+					p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_COW_BELL, 10, 1);
 				}
 				gameManager.getPlugin().saveConfig();
 				gameManager.getPlugin().reloadConfig();

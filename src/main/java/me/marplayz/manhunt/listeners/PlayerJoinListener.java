@@ -27,17 +27,15 @@ public class PlayerJoinListener implements Listener {
 		this.gameManager = gameManager;
 	}
 
-/*	public PlayerJoin(InfoBoard infoBoard) {
-		this.infoBoard = infoBoard;
-	}*/
-
 	private final String prefix = ManhuntPlugin.prefix;
+	private int autoEndTask;
 
 	@EventHandler
 	public void PlayerJoinEvent(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
 		gameManager.getInfoBoard().playerJoinScoreBoard(player);
 		event.setJoinMessage(null);
+		Bukkit.getScheduler().cancelTask(autoEndTask);
 
 		switch (gameManager.getGameState()) {
 			case LOBBY:
@@ -47,14 +45,14 @@ public class PlayerJoinListener implements Listener {
 				break;
 			case ACTIVE:
 				if (Team.hasTeam(player)) {
-					if (Team.getTeam(player).getName().equalsIgnoreCase("Runner")){
-						Bukkit.broadcastMessage(prefix + ChatColor.AQUA + "[RUNER] " + player.getDisplayName() +  ChatColor.GOLD + " joined the game.");
-					} else{
-						Bukkit.broadcastMessage(prefix + ChatColor.AQUA + "[HUNTER] " + player.getDisplayName() +  ChatColor.GOLD + " joined the game.");
+					if (Team.getTeam(player).getName().equalsIgnoreCase("Runner")) {
+						Bukkit.broadcastMessage(prefix + ChatColor.AQUA + "[RUNER] " + player.getDisplayName() + ChatColor.GOLD + " joined the game.");
+					} else {
+						Bukkit.broadcastMessage(prefix + ChatColor.AQUA + "[HUNTER] " + player.getDisplayName() + ChatColor.GOLD + " joined the game.");
 					}
 				} else {
 					gameManager.getPlayerManager().giveStartingKitSpectator(player);
-					Bukkit.broadcastMessage(prefix + ChatColor.AQUA + "[SPECTATOR] " + player.getDisplayName() +  ChatColor.GOLD + " joined the game.");
+					Bukkit.broadcastMessage(prefix + ChatColor.AQUA + "[SPECTATOR] " + player.getDisplayName() + ChatColor.GOLD + " joined the game.");
 					player.sendMessage(prefix + ChatColor.GOLD + "A game is currently in progress, you are now spectating!");
 				}
 				break;
@@ -70,32 +68,31 @@ public class PlayerJoinListener implements Listener {
 		switch (gameManager.getGameState()) {
 			case LOBBY:
 			case STARTING:
-				Bukkit.broadcastMessage(prefix + ChatColor.AQUA + player.getDisplayName() + ChatColor.GOLD + " has left the lobby. [" + (Bukkit.getServer().getOnlinePlayers().size()-1) + "/16]");
+				Bukkit.broadcastMessage(prefix + ChatColor.AQUA + player.getDisplayName() + ChatColor.GOLD + " has left the lobby. [" + (Bukkit.getServer().getOnlinePlayers().size() - 1) + "/16]");
 				break;
 			case ACTIVE:
 				if (Team.hasTeam(player)) {
-					if (Team.getTeam(player).getName().equalsIgnoreCase("Runner")){
-						Bukkit.broadcastMessage(prefix + ChatColor.AQUA + "[RUNER] " + player.getDisplayName() +  ChatColor.GOLD + " has left the game.");
-					} else{
-						Bukkit.broadcastMessage(prefix + ChatColor.AQUA + "[HUNTER] " + player.getDisplayName() +  ChatColor.GOLD + " has left the game.");
+					if (Team.getTeam(player).getName().equalsIgnoreCase("Runner")) {
+						Bukkit.broadcastMessage(prefix + ChatColor.AQUA + "[RUNER] " + player.getDisplayName() + ChatColor.GOLD + " has left the game.");
+					} else {
+						Bukkit.broadcastMessage(prefix + ChatColor.AQUA + "[HUNTER] " + player.getDisplayName() + ChatColor.GOLD + " has left the game.");
+					}
+
+					//auto end match when no players are online
+					if (Bukkit.getServer().getOnlinePlayers().size() == 0 || gameManager.getPlugin().getConfig().getString("auto-end").equalsIgnoreCase("true")) {
+						Bukkit.broadcastMessage(prefix + ChatColor.RED + "No players found, ending match in " + gameManager.getPlugin().getConfig().getInt("auto-end-minutes") + " minute(s)");
+						autoEndTask = Bukkit.getScheduler().scheduleSyncDelayedTask(gameManager.getPlugin(), new Runnable() {
+							@Override
+							public void run() {
+								gameManager.stopCurrentGame();
+								Bukkit.broadcastMessage(prefix + ChatColor.RED + "Match automatically ended.");
+							}
+						}, 20L * 60 * gameManager.getPlugin().getConfig().getInt("auto-end-minutes"));
 					}
 					break;
 				} else {
-					Bukkit.broadcastMessage(prefix + ChatColor.AQUA + "[SPECTATOR] " + player.getDisplayName() +  ChatColor.GOLD + " has left the game.");
+					Bukkit.broadcastMessage(prefix + ChatColor.AQUA + "[SPECTATOR] " + player.getDisplayName() + ChatColor.GOLD + " has left the game.");
 				}
-
-				//auto end match when no players are online
-
-/*				if(Bukkit.getServer().getOnlinePlayers().size() == 0 || gameManager.getPlugin().getConfig().getString("auto-end").equalsIgnoreCase("true")){
-					Bukkit.broadcastMessage(prefix + "No players found, ending match in " + gameManager.getPlugin().getConfig().getInt("auto-end-minutes") + " minutes");
-					int test = Bukkit.getScheduler().scheduleSyncDelayedTask(gameManager.getPlugin(), new Runnable() {
-						@Override
-						public void run() {
-							gameManager.stopCurrentGame();
-						}
-					},20L*60*gameManager.getPlugin().getConfig().getInt("auto-end-minutes"));
-				}*/
-				break;
 		}
 	}
 }

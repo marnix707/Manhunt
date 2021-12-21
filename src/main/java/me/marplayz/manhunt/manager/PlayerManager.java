@@ -99,6 +99,7 @@ public class PlayerManager {
 
 		p.playSound(p.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 10, 1);
 		p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 10, 2);
+		p.playSound(p.getLocation(), Sound.valueOf(gameManager.getPlugin().getConfig().getString("start-sound")), 10, 1);
 
 		//Fireworks
 		Firework startFirework = (Firework) p.getWorld().spawnEntity(p.getLocation(), EntityType.FIREWORK);
@@ -137,6 +138,7 @@ public class PlayerManager {
 		//sounds
 		p.playSound(p.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 10, 1);
 		p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 10, 2);
+		p.playSound(p.getLocation(), Sound.valueOf(gameManager.getPlugin().getConfig().getString("start-sound")), 10, 1);
 
 		//particles
 		p.spawnParticle(Particle.EXPLOSION_HUGE, p.getLocation(), 2);
@@ -153,6 +155,6 @@ public class PlayerManager {
 	}
 
 	public FileConfiguration getConfig() {
-		return this.plugin.getConfig();
+		return gameManager.getPlugin().getConfig();
 	}
 }

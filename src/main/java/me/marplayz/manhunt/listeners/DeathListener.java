@@ -99,7 +99,6 @@ public class DeathListener implements Listener {
 			//respawn system
 			if (ManhuntPlugin.respawns == 0) {
 				Bukkit.broadcastMessage(prefix + ChatColor.AQUA + "" + p.getName() + " has lost the manhunt!");
-				p.playSound(p.getLocation(), Sound.valueOf(config.getString("runner-death-sound")), 10, 1);
 				gameManager.setGameState(GameState.WON);
 				Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(gameManager.getPlugin(), new Runnable() {
 					public void run() {
@@ -119,15 +118,19 @@ public class DeathListener implements Listener {
 				Location deathLoc = p.getLocation();
 
 				//store before adding new location to it
-				Location deathLocation = deathLoc;//remove to block location
+				Location deathLocation = deathLoc.getBlock().getLocation();//remove to block location
 				Location newLocation = RandomLocation(deathLoc);
 
 				double distance = deathLocation.distance(newLocation);
+
 
 				Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(gameManager.getPlugin(), new Runnable() {
 					public void run() {
 						p.teleport(newLocation);
 						p.sendMessage(prefix + ChatColor.GOLD + "You have been respawned " + (int) distance + " blocks away! " + ManhuntPlugin.respawns + " Lives left!");
+						gameManager.getRespawnEffect().respawnParticle(p);
+						p.playSound(p.getLocation(), Sound.valueOf(config.getString("runner-death-sound")), 10, 1);
+						//gameManager.getRespawnEffect().activeParticle(p);
 					}
 				}, 2);
 

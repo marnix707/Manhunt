@@ -1,21 +1,24 @@
-#################################################################################
-#                                                                               #
-#                                 Manhunt 1.1.7                                 #
-#                                 By:  Marplayz                                 #
-#                                                                               #
-#                                                                               #
-#                           Info:  http://bit.fly/707                           #
-#################################################################################
+#################################################################################################
+#                                                                                               #
+#                                         Manhunt 1.1.0                                         #
+#                                       MC Version: 1.18.1                                      #
+#                                                                                               #
+#                                         By:  Marplayz                                         #
+#                                                                                               #
+#                                                                                               #
+#                                  Source:  http://bit.fly/707                                  #
+#                                                                                               #
+#################################################################################################
 
 
-#Amount of seconds before the Speed runner may start.
+#Countdown before game starts in seconds
 start-countdown: 4
 
-#Amount of seconds the hunter will stay rooted.
+#Amount of seconds the hunter will stay foot
 hunter-cooldown: 15
 
-#auto end game:
-auto-end: true
+#auto end game when no players are online:
+auto-end: false
 auto-end-minutes: 1
 
 #In minutes, tell runner the distance
@@ -26,7 +29,8 @@ distance-check-hunter: true
 
 #Set a cooldown on the compass in seconds
 compass-cooldown: true
-compass-cooldown-amount: 10
+compass-cooldown-amount: 30
+
 #Make the compass point to the portal the runner left in.
 #If false it will point to the latest location in normal world.
 compass-portal: true
@@ -34,15 +38,16 @@ compass-portal: true
 #Allow to start without enough people
 force-start: true
 
+#world difficulty
 difficulty: NORMAL
 
-#Start sound [All caps] i.e. ENTITY_WITHER_DEATH, AMBIENT_CAVE, ENTITY_PLAYER_LEVELUP
+#Start sound [All caps] i.e. ENTITY_WITHER_DEATH, AMBIENT_CAVE, ENTITY_PLAYER_LEVELUP, BLOCK_END_PORTAL_SPAWN
 start-sound: ENTITY_PLAYER_LEVELUP
-runner-death-sound: ENTITY_LIGHTNING_BOLT_THUNDER
+runner-death-sound: BLOCK_END_PORTAL_SPAWN
 
 #Hunter respawn in random range:
 regional-respawn: true
-runner-respawns: 0
+runner-respawns: 1
 
 #Hunter respawn in random range near the portal when dying in the nether:
 regional-portal-respawn: true
@@ -51,14 +56,14 @@ regional-portal-respawn: true
 runner-kill-reward: true
 
 #Respawn range (Minimal difference 5)
-max-range: 100
-min-range: 50
+max-range: 500
+min-range: 300
 
 #Max Health (Default = 20, 1 hearth = 2 points)
 runner-max-health: 20
 hunter-max-health: 20
 
-#Keep inventory
+#Keep inventory upon death
 runner-inv-keep: true
 hunter-inv-keep: true
 
@@ -75,6 +80,7 @@ bow-hunter: false
 food-runner: false
 food-hunter: false
 
+#EMP will disable the hunter's compass for set amount of seconds (one use only)
 emp: false
 emp-timer: 30
 

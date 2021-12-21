@@ -77,9 +77,9 @@ public class KitsMenu implements Listener {
 		emp.setItemMeta(empMeta);
 
 		//Place all items in inventory
-		kitsSettingsInventory.setItem(27, book);
-		kitsSettingsInventory.setItem(35, clearKits);
-		kitsSettingsInventory.setItem(31, insta);
+		kitsSettingsInventory.setItem(35, book);
+		kitsSettingsInventory.setItem(27, clearKits);
+		//kitsSettingsInventory.setItem(31, insta);
 		kitsSettingsInventory.setItem(10, CreateKits("Wooden Sword", Material.WOODEN_SWORD, 1, "wood-sword-runner", "wood-sword-hunter"));
 		kitsSettingsInventory.setItem(11, CreateKits("Stone Pickaxe", Material.STONE_PICKAXE, 1, "stone-pick-runner", "stone-pick-hunter"));
 		kitsSettingsInventory.setItem(12, CreateKits("10 Beef", Material.COOKED_BEEF, 10, "food-runner", "food-hunter"));

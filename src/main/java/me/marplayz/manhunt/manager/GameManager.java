@@ -2,6 +2,7 @@ package me.marplayz.manhunt.manager;
 
 import me.marplayz.manhunt.GUI.*;
 import me.marplayz.manhunt.listeners.*;
+import me.marplayz.manhunt.particles.RespawnEffect;
 import me.marplayz.manhunt.util.InfoBoard;
 import me.marplayz.manhunt.ManhuntPlugin;
 import me.marplayz.manhunt.util.Team;
@@ -38,6 +39,7 @@ public class GameManager {
 	private CompassMenu compassMenu;
 	private CompassListener compassListener;
 	private DragonListener dragonListener;
+	private RespawnEffect respawnEffect;
 
 	private GameState gameState = GameState.LOBBY;
 
@@ -58,6 +60,8 @@ public class GameManager {
 		this.compassMenu = new CompassMenu(this);
 		this.compassListener = new CompassListener(this);
 		this.dragonListener = new DragonListener(this);
+		this. respawnEffect = new RespawnEffect(this);
+
 	}
 
 	public int hunterTeamSize = 0;
@@ -235,4 +239,5 @@ public class GameManager {
 		return manhuntCommand;
 	}
 
+	public RespawnEffect getRespawnEffect(){return respawnEffect;}
 }
