@@ -34,6 +34,7 @@ compass-cooldown-amount: 30
 #Make the compass point to the portal the runner left in.
 #If false it will point to the latest location in normal world.
 compass-portal: true
+compass-end-portal: true
 
 #Allow to start without enough people
 force-start: true
@@ -49,8 +50,15 @@ runner-death-sound: BLOCK_END_PORTAL_SPAWN
 regional-respawn: true
 runner-respawns: 1
 
-#Hunter respawn in random range near the portal when dying in the nether:
-regional-portal-respawn: true
+#Hunter respawn in random range near the portal or death location
+hunter-regional-respawn: true
+hunter-nether-regional-respawn: true
+hunter-end-regional-respawn: true
+
+#Runner respawn in random range near the portal or death location
+runner-regional-respawn: true
+runner-nether-regional-respawn: true
+runner-end-regional-respawn: true
 
 #receive rewards as runner for killing hunters
 runner-kill-reward: true

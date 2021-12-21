@@ -40,6 +40,9 @@ public class DeathListener implements Listener {
 	//public Location locationPortalRunner;
 	public static int hunterDeathsInt = 0;
 	public static int runnerDeathsInt = 0;
+	double distance = 0;
+	private Location newLocation;
+	private Location oldLocation;
 
 	String prefix = ManhuntPlugin.prefix;
 
@@ -67,7 +70,7 @@ public class DeathListener implements Listener {
 		if (!(event.getPlayer() instanceof Player)) {
 			return;
 		}
-		if(gameManager.getGameState() != GameState.ACTIVE) return;
+		if (gameManager.getGameState() != GameState.ACTIVE) return;
 		Player player = (Player) event.getPlayer();
 
 		if (gameManager.getPlayerManager().missingAnyRewards()) {
@@ -85,9 +88,12 @@ public class DeathListener implements Listener {
 	@EventHandler
 	public void RunnerDeath(PlayerDeathEvent event) {
 		Player p = event.getEntity();
+		World.Environment deathEnvironment = p.getPlayer().getWorld().getEnvironment();
 		FileConfiguration config = gameManager.getPlugin().getConfig();
 
 		if (Team.getTeam(p) != null && Team.getTeam(p).getName().equalsIgnoreCase("Runner")) {
+
+			//instant respawn player (maybe remove task) just do instant
 			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(gameManager.getPlugin(), new Runnable() {
 				public void run() {
 					p.spigot().respawn();
@@ -95,14 +101,15 @@ public class DeathListener implements Listener {
 			}, 1);
 			runnerDeathsInt += 1;
 			ManhuntPlugin.respawns--;
+			gameManager.getInfoBoard().updateScoreboard();
 
-			//respawn system
+			//Lose manhunt no lives left
 			if (ManhuntPlugin.respawns == 0) {
-				Bukkit.broadcastMessage(prefix + ChatColor.AQUA + "" + p.getName() + " has lost the manhunt!");
-				gameManager.setGameState(GameState.WON);
+				Bukkit.broadcastMessage(prefix + ChatColor.GOLD + "" + p.getName() + ChatColor.RED + " has lost the manhunt!");
 				Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(gameManager.getPlugin(), new Runnable() {
 					public void run() {
 						p.teleport(Bukkit.getServer().getWorlds().get(0).getSpawnLocation());
+						gameManager.setGameState(GameState.WON);
 					}
 				}, 2);
 				return;
@@ -113,38 +120,56 @@ public class DeathListener implements Listener {
 				event.setKeepInventory(true);
 				event.setKeepLevel(true);
 			}
-			if (config.getString("regional-respawn").equalsIgnoreCase("true")) {
 
-				Location deathLoc = p.getLocation();
+			//Lives left, respawn accordingly
 
-				//store before adding new location to it
-				Location deathLocation = deathLoc.getBlock().getLocation();//remove to block location
-				Location newLocation = RandomLocation(deathLoc);
-
-				double distance = deathLocation.distance(newLocation);
-
-
-				Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(gameManager.getPlugin(), new Runnable() {
-					public void run() {
-						p.teleport(newLocation);
-						p.sendMessage(prefix + ChatColor.GOLD + "You have been respawned " + (int) distance + " blocks away! " + ManhuntPlugin.respawns + " Lives left!");
-						gameManager.getRespawnEffect().respawnParticle(p);
-						p.playSound(p.getLocation(), Sound.valueOf(config.getString("runner-death-sound")), 10, 1);
-						//gameManager.getRespawnEffect().activeParticle(p);
-					}
-				}, 2);
-
+			switch (deathEnvironment) {
+				case THE_END:
+					if (config.getString("runner-end-regional-respawn").equalsIgnoreCase("true")) {
+						oldLocation = PortalListener.locationEndPortalRunner.getBlock().getLocation();
+						newLocation = RandomLocation(PortalListener.locationEndPortalRunner);
+					} else return;
+					break;
+				case NETHER:
+					if (config.getString("runner-nether-regional-respawn").equalsIgnoreCase("true")) {
+						oldLocation = PortalListener.locationPortalRunner.getBlock().getLocation();
+						newLocation = RandomLocation(PortalListener.locationPortalRunner);
+					} else return;
+					break;
+				case NORMAL:
+					if (config.getString("runner-regional-respawn").equalsIgnoreCase("true")) {
+						Location deathLocation = p.getLocation();
+						oldLocation = p.getLocation().getBlock().getLocation();
+						newLocation = RandomLocation(deathLocation);
+					} else return;
+					break;
 			}
-			gameManager.getInfoBoard().updateScoreboard();
+
+			distance = oldLocation.distance(newLocation);
+			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(gameManager.getPlugin(), new Runnable() {
+				public void run() {
+					p.teleport(newLocation);
+					p.playSound(p.getLocation(), Sound.valueOf(config.getString("runner-death-sound")), 10, 1);
+					p.sendMessage(prefix + ChatColor.GOLD + "You respawned " + (int) distance + " blocks away");
+					p.sendMessage(prefix + ChatColor.RED + ManhuntPlugin.respawns + " live(s) left!");
+				}
+			}, 1);
 		}
 	}
 
 	@EventHandler
 	public void HunterDeath(PlayerDeathEvent event) {
 		Player p = event.getEntity();
+		World.Environment deathEnvironment = p.getPlayer().getWorld().getEnvironment();
 		FileConfiguration config = gameManager.getPlugin().getConfig();
 
 		if (Team.getTeam(p) != null && Team.getTeam(p).getName() == "Hunter") {
+			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(gameManager.getPlugin(), new Runnable() {
+				public void run() {
+					p.spigot().respawn();
+				}
+			}, 1);
+
 			hunterDeathsInt++;
 			//If killed by runner then give bonus
 			if (p.getKiller() != null) {
@@ -157,63 +182,45 @@ public class DeathListener implements Listener {
 					}
 				}
 			}
+			gameManager.getInfoBoard().updateScoreboard();
 
 			if (config.getString("hunter-inv-keep").equals("true")) {
 				event.getDrops().clear();
 				event.setKeepInventory(true);
 				event.setKeepLevel(true);
 			}
-			if (p.getPlayer().getWorld().getEnvironment().equals(World.Environment.NORMAL)
-					&& config.getString("regional-respawn").equalsIgnoreCase("true")) {
-
-				Location deathLoc = p.getLocation();
-
-				Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(gameManager.getPlugin(), new Runnable() {
-					public void run() {
-						p.spigot().respawn();
-					}
-				}, 1);
-
-				Location deathLocation = deathLoc.getBlock().getLocation();
-				Location newLocation = RandomLocation(deathLoc);
-
-				double distance = deathLocation.distance(newLocation);
-
-				Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(gameManager.getPlugin(), new Runnable() {
-					public void run() {
-						p.teleport(newLocation);
-						p.sendMessage(prefix + ChatColor.GOLD + "You have been respawned " + (int) distance + " blocks away!");
-					}
-				}, 1);
-
-				//death in the nether spawn near portal
-			} else if (p.getPlayer().getWorld().getEnvironment().equals(World.Environment.NETHER)
-					&& config.getString("regional-portal-respawn").equalsIgnoreCase("true")) {
-
-				//store location portal and get new distance from portal location
-				Location locPortal = PortalListener.locationPortalHunter;
-				Location newLocationPortal = RandomLocation(PortalListener.locationPortalHunter);
-
-				double distance = locPortal.distance(newLocationPortal);
-
-				Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(gameManager.getPlugin(), new Runnable() {
-					public void run() {
-						p.spigot().respawn();
-					}
-				}, 1);
-				Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(gameManager.getPlugin(), new Runnable() {
-					public void run() {
-						if (!(PortalListener.locationPortalHunter == null)) {
-							p.teleport(newLocationPortal);
-							p.sendMessage(prefix + ChatColor.GOLD + "I told you");
-							p.sendMessage(prefix + ChatColor.GOLD + "You have been respawned " + (int) distance + " blocks away!");
-						}
-					}
-				}, 1);
+			switch (deathEnvironment) {
+				case THE_END:
+					if (config.getString("hunter-end-regional-respawn").equalsIgnoreCase("true")) {
+						oldLocation = PortalListener.locationEndPortalHunter.getBlock().getLocation();
+						newLocation = RandomLocation(PortalListener.locationEndPortalHunter);
+					} else return;
+					break;
+				case NETHER:
+					if (config.getString("hunter-nether-regional-respawn").equalsIgnoreCase("true")) {
+						oldLocation = PortalListener.locationPortalHunter.getBlock().getLocation();
+						newLocation = RandomLocation(PortalListener.locationPortalHunter);
+					} else return;
+					break;
+				case NORMAL:
+					if (config.getString("hunter-regional-respawn").equalsIgnoreCase("true")) {
+						Location deathLocation = p.getLocation();
+						oldLocation = p.getLocation().getBlock().getLocation();
+						newLocation = RandomLocation(deathLocation);
+					} else return;
+					break;
 			}
-			gameManager.getInfoBoard().updateScoreboard();
+
+			distance = oldLocation.distance(newLocation);
+			Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(gameManager.getPlugin(), new Runnable() {
+				public void run() {
+					p.teleport(newLocation);
+					p.sendMessage(prefix + ChatColor.GOLD + "You respawned " + (int) distance + " blocks away");
+				}
+			}, 1);
 		}
 	}
+
 
 	//get new random location based from a given location with parameters from config
 	public Location RandomLocation(Location deathLoc) {
@@ -224,7 +231,7 @@ public class DeathListener implements Listener {
 		double upper = Math.sqrt((float) (Math.pow(max, 2) / 2));
 		double lower = Math.sqrt((float) (Math.pow(min, 2) / 2));
 
-		int randomMultiple = random.nextInt((int) upper - (int) lower) + (int) lower;
+		float randomMultiple = random.nextInt((int) upper - (int) lower) + (int) lower;
 		int randomNegative = random.nextInt(2) - 1;
 		if (randomNegative == 0) {
 			randomNegative++;

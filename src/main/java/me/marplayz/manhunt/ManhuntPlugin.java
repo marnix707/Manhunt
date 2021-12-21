@@ -34,8 +34,6 @@ public final class ManhuntPlugin extends JavaPlugin {
 		setupConfig();
 		worlds = getServer().getWorlds();
 
-		this.gameManager = new GameManager(this);
-
 		//Command
 		this.getCommand("Manhunt").setExecutor(new ManhuntCommand(gameManager));
 
@@ -85,6 +83,7 @@ public final class ManhuntPlugin extends JavaPlugin {
 		CustomConfigs.get().options().copyDefaults(true);
 		CustomConfigs.saveCustomConfig();
 
+		this.gameManager = new GameManager(this);
 		//initialize values
 		prefix = ChatColor.translateAlternateColorCodes('&', getConfig().getString("prefix"));
 		startCountdownConfig = getConfig().getInt("start-countdown");
@@ -93,6 +92,7 @@ public final class ManhuntPlugin extends JavaPlugin {
 		empTimerConfig = getConfig().getInt("emp-timer");
 		distanceTimer = getConfig().getInt("distance-timer");
 		respawns = getConfig().getInt("runner-respawns");
+		gameManager.getCompassListener().compassCooldown = compassCooldownConfig *10;
 		final int respawnsFinal = respawns;
 	}
 }

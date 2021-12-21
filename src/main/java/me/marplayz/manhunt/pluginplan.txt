@@ -7,7 +7,10 @@ Plugin Ideas:
  - creative mode with kits
  - Animations on scoreboard? (pls dont)
  - NMS version control
- - config comments
+ - config comments [Difficult -> Custom YAML config]
+ - Multiplayer lives (personalised scoreboard)
+
+ -regional respawn gui with hunter portal options
 
  reward ideas:
  - heal
@@ -39,6 +42,8 @@ Current Permissions
 Plugin Name Ideas:
  - Manhunt
  - Advanced Manhunt
+ - Hunted (!)
+ - Hunting season (!)
  - Manhunt Advanced
  - Manhunt+ (!)
  - Manhunt
@@ -50,4 +55,3 @@ Plugin Name Ideas:
 
  Sources:
   - https://www.spigotmc.org/resources/manhunt-1-16x-1-18x.86708/updates - Manhunt+
-  - test test

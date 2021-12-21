@@ -30,7 +30,10 @@ public class PortalListener implements Listener {
 	}
 
 	public static Location locationPortalRunner;
+	public static Location locationEndPortalRunner;
+
 	public static Location locationPortalHunter;
+	public static Location locationEndPortalHunter;
 	public PlayerManager getPlayerManager() {
 		return playerManager;
 	}
@@ -40,7 +43,8 @@ public class PortalListener implements Listener {
 
 	@EventHandler
 	public void RunnerPortal(PlayerTeleportEvent event) {
-		if (gameManager.getPlugin().getConfig().getString("compass-portal").equalsIgnoreCase("true") && Team.getTeam(event.getPlayer()) != null) {
+		if ((gameManager.getPlugin().getConfig().getString("compass-portal").equalsIgnoreCase("true") || gameManager.getPlugin().getConfig().getString("runner-nether-regional-respawn").equalsIgnoreCase("true"))
+			&& Team.getTeam(event.getPlayer()) != null) {
 			if (event.getFrom().getWorld().getEnvironment().equals(World.Environment.NORMAL) && event.getTo().getWorld().getEnvironment().equals(World.Environment.NETHER)
 					&& Team.getTeam(event.getPlayer()).getName().equals("Runner")) {
 				Player p = event.getPlayer();
@@ -48,16 +52,36 @@ public class PortalListener implements Listener {
 				p.sendMessage(prefix + ChatColor.GOLD + "Portal tracked");
 			}
 		}
+
+		if ((gameManager.getPlugin().getConfig().getString("compass-end-portal").equalsIgnoreCase("true") || gameManager.getPlugin().getConfig().getString("runner-end-regional-respawn").equalsIgnoreCase("true"))
+			&& Team.getTeam(event.getPlayer()) != null) {
+			if (event.getFrom().getWorld().getEnvironment().equals(World.Environment.NORMAL) && event.getTo().getWorld().getEnvironment().equals(World.Environment.THE_END)
+					&& Team.getTeam(event.getPlayer()).getName().equals("Runner")) {
+				Player p = event.getPlayer();
+				locationEndPortalRunner = event.getFrom();
+				p.sendMessage(prefix + ChatColor.GOLD + "Portal tracked");
+			}
+		}
 	}
 
 	@EventHandler
 	public void HunterPortal(PlayerTeleportEvent event) {
-		if (gameManager.getPlugin().getConfig().getString("regional-portal-respawn").equalsIgnoreCase("true") && gameManager.getPlugin().getConfig().getString("regional-respawn").equalsIgnoreCase("true")
-				&& Team.getTeam(event.getPlayer()) != null) {
+
+		//Track portal to the nether
+		if (gameManager.getPlugin().getConfig().getString("hunter-nether-regional-respawn").equalsIgnoreCase("true") && Team.getTeam(event.getPlayer()) != null) {
 			if (event.getFrom().getWorld().getEnvironment().equals(World.Environment.NORMAL) && event.getTo().getWorld().getEnvironment().equals(World.Environment.NETHER)
 					&& Team.getTeam(event.getPlayer()).getName().equals("Hunter")) {
 				Player p = event.getPlayer();
 				locationPortalHunter = event.getFrom();
+				p.sendMessage(prefix + ChatColor.GOLD + "We got your back!");
+			}
+		}
+		//Track portal to the end
+		if (gameManager.getPlugin().getConfig().getString("hunter-end-regional-respawn").equalsIgnoreCase("true") && Team.getTeam(event.getPlayer()) != null) {
+			if (event.getFrom().getWorld().getEnvironment().equals(World.Environment.NORMAL) && event.getTo().getWorld().getEnvironment().equals(World.Environment.THE_END)
+					&& Team.getTeam(event.getPlayer()).getName().equals("Hunter")) {
+				Player p = event.getPlayer();
+				locationEndPortalHunter = event.getFrom();
 				p.sendMessage(prefix + ChatColor.GOLD + "We got your back!");
 			}
 		}

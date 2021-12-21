@@ -29,6 +29,7 @@ public class DragonListener implements Listener {
             return;
         }
         Player winner = event.getEntity().getKiller();
+        event.getEntity().setSilent(true);
         Bukkit.broadcastMessage(prefix + ChatColor.GOLD +  winner.getDisplayName() + ChatColor.GREEN + " Has won the game!");
         gameManager.setGameState(GameState.WON);
     }

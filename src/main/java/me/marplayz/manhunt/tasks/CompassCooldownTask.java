@@ -1,6 +1,7 @@
 package me.marplayz.manhunt.tasks;
 
 import me.marplayz.manhunt.ManhuntPlugin;
+import me.marplayz.manhunt.listeners.CompassListener;
 import me.marplayz.manhunt.manager.GameManager;
 import me.marplayz.manhunt.manager.GameState;
 import me.marplayz.manhunt.util.Team;
@@ -19,8 +20,6 @@ public class CompassCooldownTask extends BukkitRunnable {
 	public CompassCooldownTask(GameManager gameManager) { this.gameManager = gameManager;
 	}
 
-	private int timeLeft = ManhuntPlugin.compassCooldownConfig * 10;
-
 	private BaseComponent[] bc;
 
 	@Override
@@ -34,12 +33,13 @@ public class CompassCooldownTask extends BukkitRunnable {
 			cancel();
 			return;
 		}
-		if (timeLeft <= 0) {
+		if (gameManager.getCompassListener().compassCooldown * 10 <= 0) {
 			//timeLeft = ManhuntPlugin.compassCooldownConfig * 10;
 			for (Player p : Bukkit.getOnlinePlayers()) {
 				if (Team.getTeam(p) != null && Team.getTeam(p).getName().equalsIgnoreCase("Hunter")) {
 					bc = TextComponent.fromLegacyText(ChatColor.GREEN + "Compass Ready");
 					p.spigot().sendMessage(ChatMessageType.ACTION_BAR,bc);
+					gameManager.getCompassListener().compassCooldown = gameManager.getPlugin().getConfig().getInt("compass-cooldown-amount") *10;
 				}
 			}
 			cancel();
@@ -47,10 +47,10 @@ public class CompassCooldownTask extends BukkitRunnable {
 		}
 		for (Player p : Bukkit.getOnlinePlayers()) {
 			if (Team.getTeam(p) != null && Team.getTeam(p).getName().equalsIgnoreCase("Hunter")) {
-				bc = TextComponent.fromLegacyText(ChatColor.RED + "Compass back in: " + (double)timeLeft/10 + " S");
+				bc = TextComponent.fromLegacyText(ChatColor.RED + "Compass back in: " + (double)gameManager.getCompassListener().compassCooldown/10 + " S");
 				p.spigot().sendMessage(ChatMessageType.ACTION_BAR, bc);
 			}
 		}
-		timeLeft--;
+		gameManager.getCompassListener().compassCooldown--;
 	}
 }
