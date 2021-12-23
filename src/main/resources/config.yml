@@ -94,3 +94,4 @@ emp-timer: 30
 
 #Custom messages:
 prefix: "&e[&d&lManhunt&r&e] "
+permission-message: "&e[&d&lManhunt&r&e] &cYou do not have permission."

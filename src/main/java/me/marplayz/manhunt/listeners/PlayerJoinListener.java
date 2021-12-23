@@ -1,11 +1,14 @@
 package me.marplayz.manhunt.listeners;
 
+import me.marplayz.manhunt.commands.ManhuntCommand;
+import me.marplayz.manhunt.manager.GameState;
 import me.marplayz.manhunt.util.InfoBoard;
 import me.marplayz.manhunt.ManhuntPlugin;
 import me.marplayz.manhunt.manager.GameManager;
 import me.marplayz.manhunt.util.Team;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.GameRule;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -39,6 +42,10 @@ public class PlayerJoinListener implements Listener {
 
 		switch (gameManager.getGameState()) {
 			case LOBBY:
+				player.getWorld().setTime(5000);
+				player.getWorld().setClearWeatherDuration(1000000);
+				player.teleport(player.getWorld().getSpawnLocation());
+				player.getWorld().setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
 			case STARTING:
 				gameManager.getPlayerManager().giveLobbyKit(player);
 				Bukkit.broadcastMessage(prefix + ChatColor.AQUA + player.getDisplayName() + ChatColor.GOLD + " has joined the lobby. [" + Bukkit.getServer().getOnlinePlayers().size() + "/16]");
@@ -46,7 +53,7 @@ public class PlayerJoinListener implements Listener {
 			case ACTIVE:
 				if (Team.hasTeam(player)) {
 					if (Team.getTeam(player).getName().equalsIgnoreCase("Runner")) {
-						Bukkit.broadcastMessage(prefix + ChatColor.AQUA + "[RUNER] " + player.getDisplayName() + ChatColor.GOLD + " joined the game.");
+						Bukkit.broadcastMessage(prefix + ChatColor.AQUA + "[RUNNER] " + player.getDisplayName() + ChatColor.GOLD + " joined the game.");
 					} else {
 						Bukkit.broadcastMessage(prefix + ChatColor.AQUA + "[HUNTER] " + player.getDisplayName() + ChatColor.GOLD + " joined the game.");
 					}
@@ -68,7 +75,20 @@ public class PlayerJoinListener implements Listener {
 		switch (gameManager.getGameState()) {
 			case LOBBY:
 			case STARTING:
+				if (ManhuntCommand.runners.contains(player.getName())) {
+					ManhuntCommand.runners.remove(player.getName());
+					gameManager.runnerTeamSize -= 1;
+				}
+				if (ManhuntCommand.hunters.contains(player.getName())) {
+					ManhuntCommand.hunters.remove(player.getName());
+					gameManager.hunterTeamSize -= 1;
+				}
+
 				Bukkit.broadcastMessage(prefix + ChatColor.AQUA + player.getDisplayName() + ChatColor.GOLD + " has left the lobby. [" + (Bukkit.getServer().getOnlinePlayers().size() - 1) + "/16]");
+				if(gameManager.hunterTeamSize == 0 || gameManager.runnerTeamSize == 0){
+					Bukkit.broadcastMessage(prefix + ChatColor.RED + "Not enough players to start.");
+					gameManager.setGameState(GameState.STOP);
+				}
 				break;
 			case ACTIVE:
 				if (Team.hasTeam(player)) {

@@ -62,31 +62,14 @@ public class EMPListener implements Listener {
 				if (Team.getTeam(player) == null) return;
 				player.sendMessage(prefix + ChatColor.RED + "An EMP has been used!");
 
-				if (gameManager.hunterTeamSize > 0 && Team.getTeam(player).getName().equalsIgnoreCase("Runner")) {
-					final Location runnerloc = player.getLocation();
+				if (Team.getTeam(player).getName().equalsIgnoreCase("Runner")) {
+					final Location runnerLoc = player.getLocation();
 
-					//PARTICLE START
-					Location location = player.getLocation();
-					Location location2 = player.getLocation();
+					//PARTICLE
+					gameManager.getRespawnEffect().empParticle(player);
 
-					int radius = 1;
-					final double[] y = {0};
-
-					new BukkitRunnable() {
-						@Override
-						public void run() {
-							double x = radius * Math.cos(y[0]);
-							double z = radius * Math.sin(y[0]);
-							for (Player players : Bukkit.getOnlinePlayers()) {
-								players.spawnParticle(Particle.REDSTONE, location.add(x, y[0], z), 200, new Particle.DustOptions(Color.RED, 5));
-								players.spawnParticle(Particle.REDSTONE, location2.add(z, y[0], x), 200, new Particle.DustOptions(Color.YELLOW, 5));
-								y[0] = y[0] + 0.1;
-							}
-						}
-					}.runTaskTimerAsynchronously(gameManager.getPlugin(), 0, 2);
-					//PARTICLE END
 					for (Player players : Bukkit.getOnlinePlayers()) {
-						players.playSound(runnerloc, Sound.ENTITY_GENERIC_EXPLODE, 20, 1);
+						players.playSound(runnerLoc, Sound.ENTITY_GENERIC_EXPLODE, 20, 1);
 					}
 				}
 			}

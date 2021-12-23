@@ -101,7 +101,7 @@ public class SettingMenu implements Listener {
 		ItemStack clock = new ItemStack(Material.CLOCK);
 		ItemMeta clockMeta = clock.getItemMeta();
 
-		clockMeta.setDisplayName(ChatColor.GOLD + "" + ChatColor.BOLD + "Set Hunter Cooldown");
+		clockMeta.setDisplayName(ChatColor.GOLD + "" + ChatColor.BOLD + "Hunter Cooldown");
 		clockMeta.setLore(Arrays.asList("",ChatColor.GOLD +"" +ChatColor.ITALIC + "   ⌚ "+ ChatColor.GRAY + ""+ ChatColor.ITALIC + ": "+ gameManager.getPlugin().getConfig().getString("hunter-cooldown")
 				+ ChatColor.GRAY + ""+ ChatColor.ITALIC + " second(s)"));
 

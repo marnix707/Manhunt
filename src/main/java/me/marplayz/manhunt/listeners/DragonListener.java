@@ -15,22 +15,25 @@ import org.bukkit.event.entity.EntityDeathEvent;
 
 public class DragonListener implements Listener {
 
-    private GameManager gameManager;
+	private GameManager gameManager;
 
-    public DragonListener(GameManager gameManager) {
-        this.gameManager = gameManager;
-    }
+	public DragonListener(GameManager gameManager) {
+		this.gameManager = gameManager;
+	}
 
-    String prefix = ManhuntPlugin.prefix;
+	String prefix = ManhuntPlugin.prefix;
 
-    @EventHandler
-    public void enderDragonDeath(EntityDeathEvent event) {
-        if (!event.getEntity().getType().equals(EntityType.ENDER_DRAGON)) {
-            return;
-        }
-        Player winner = event.getEntity().getKiller();
-        event.getEntity().setSilent(true);
-        Bukkit.broadcastMessage(prefix + ChatColor.GOLD +  winner.getDisplayName() + ChatColor.GREEN + " Has won the game!");
-        gameManager.setGameState(GameState.WON);
-    }
+	@EventHandler
+	public void enderDragonDeath(EntityDeathEvent event) {
+		if (!event.getEntity().getType().equals(EntityType.ENDER_DRAGON)) {
+			return;
+		}
+		if (gameManager.getGameState() != GameState.ACTIVE) {
+			return;
+		}
+		Player winner = event.getEntity().getKiller();
+		event.getEntity().setSilent(true);
+		Bukkit.broadcastMessage(prefix + ChatColor.GOLD + winner.getDisplayName() + ChatColor.GREEN + " Has won the game!");
+		gameManager.setGameState(GameState.WON);
+	}
 }

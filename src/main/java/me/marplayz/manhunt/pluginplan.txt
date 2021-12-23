@@ -9,8 +9,8 @@ Plugin Ideas:
  - NMS version control
  - config comments [Difficult -> Custom YAML config]
  - Multiplayer lives (personalised scoreboard)
-
- -regional respawn gui with hunter portal options
+ - hunter lives
+ - regional respawn gui with hunter portal options
 
  reward ideas:
  - heal
@@ -35,9 +35,10 @@ Current Features:
  - Advanced Compass Locator
  - Action Bar Cooldown
 
-Current Permissions
+Current Permissions:
  - manhunt.reload
  - manhunt.settings
+ - manhunt.stop
 
 Plugin Name Ideas:
  - Manhunt

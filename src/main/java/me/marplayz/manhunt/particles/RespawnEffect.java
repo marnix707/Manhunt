@@ -2,15 +2,18 @@ package me.marplayz.manhunt.particles;
 
 import me.marplayz.manhunt.manager.GameManager;
 import org.bukkit.Bukkit;
+import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class RespawnEffect {
 
 	private final GameManager gameManager;
 	private int totemTask;
 	private int fireTask;
+	private int empTask;
 
 	public RespawnEffect(GameManager gameManager) {
 		this.gameManager = gameManager;
@@ -46,28 +49,50 @@ public class RespawnEffect {
 		}, 0, 1);
 	}
 
-	public void activeParticle(Player player){
+	public void activeParticle(Player player) {
 		fireTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(gameManager.getPlugin(), new Runnable() {
-		double var = 0;
-		final Location loc = player.getLocation();
-		final double r = 1.5;
+			double var = 0;
+			final Location loc = player.getLocation();
+			final double r = 1.5;
 
-		@Override
-		public void run() {
-			if (var > 2*Math.PI) {
-				Bukkit.getScheduler().cancelTask(fireTask);
-			}
-			var += Math.PI/10;
-			for(double theta = 0; theta <= 2*Math.PI; theta +=Math.PI/40){
-				double x = r*Math.cos(theta) * Math.sin(var);
-				double y = r*Math.cos(var) * +1.5;
-				double z = r*Math.sin(theta) * Math.sin(var);
+			@Override
+			public void run() {
+				if (var > 2 * Math.PI) {
+					Bukkit.getScheduler().cancelTask(fireTask);
+				}
+				var += Math.PI / 10;
+				for (double theta = 0; theta <= 2 * Math.PI; theta += Math.PI / 40) {
+					double x = r * Math.cos(theta) * Math.sin(var);
+					double y = r * Math.cos(var) * +1.5;
+					double z = r * Math.sin(theta) * Math.sin(var);
 
-				loc.add(x, y, z);
-				player.getWorld().spawnParticle(Particle.FLAME, loc,0,0,0,0,1);
-				loc.subtract(x,y,z);
+					loc.add(x, y, z);
+					player.getWorld().spawnParticle(Particle.FLAME, loc, 0, 0, 0, 0, 1);
+					loc.subtract(x, y, z);
+				}
 			}
-		}
-	}, 0, 1);
-}
+		}, 0, 1);
+	}
+
+	public void empParticle(Player player) {
+		empTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(gameManager.getPlugin(), new Runnable() {
+			//PARTICLE START
+			final Location location = player.getLocation();
+			final Location location2 = player.getLocation();
+
+			final int radius = 1;
+			final double[] y = {0};
+
+			@Override
+			public void run() {
+				double x = radius * Math.cos(y[0]);
+				double z = radius * Math.sin(y[0]);
+				for (Player players : Bukkit.getOnlinePlayers()) {
+					players.spawnParticle(Particle.REDSTONE, location.add(x, y[0], z), 200, new Particle.DustOptions(Color.RED, 5));
+					players.spawnParticle(Particle.REDSTONE, location2.add(z, y[0], x), 200, new Particle.DustOptions(Color.YELLOW, 5));
+					y[0] = y[0] + 0.1;
+				}
+			}
+		}, 0, 1);
+	}
 }

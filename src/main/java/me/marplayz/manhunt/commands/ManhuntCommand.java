@@ -113,7 +113,7 @@ public class ManhuntCommand implements CommandExecutor {
 
             } else if (args[0].equalsIgnoreCase("reload")) {
                 if (!(sender.hasPermission("manhunt.reload"))) {
-                    sender.sendMessage(prefix + "" + ChatColor.RED + "You can not do that!");
+                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(gameManager.getPlugin().getConfig().getString("permission-message"))));
                     return true;
                 }
                 if (gameManager.getGameState() == GameState.ACTIVE) {
@@ -133,6 +133,10 @@ public class ManhuntCommand implements CommandExecutor {
                 return true;
 
             } else if (args[0].equalsIgnoreCase("stop")) {
+                if (!(sender.hasPermission("manhunt.stop"))) {
+                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', Objects.requireNonNull(gameManager.getPlugin().getConfig().getString("permission-message"))));
+                    return true;
+                }
                 if(gameManager.getGameState() == GameState.LOBBY){
                     sender.sendMessage(prefix + ChatColor.GREEN + "No active game");
                     return true;
@@ -187,7 +191,7 @@ public class ManhuntCommand implements CommandExecutor {
 
                 Bukkit.broadcastMessage(prefix + ChatColor.AQUA + newPlayer + " is now a Hunter");
                 Team.getTeam("Hunter").add(onlinePlayer);
-                hunters.add(ChatColor.DARK_GRAY + " - " + newPlayer);
+                hunters.add(ChatColor.BLUE + " - " + newPlayer);
                 gameManager.hunterTeamSize += 1;
                 if (runners.contains(joinedName)) {
                     runners.remove(joinedName);
@@ -209,7 +213,7 @@ public class ManhuntCommand implements CommandExecutor {
                 Bukkit.broadcastMessage(prefix + ChatColor.AQUA + newPlayer + " is now a Speedrunner");
                 Bukkit.getPlayer(newPlayer).sendMessage(prefix + ChatColor.AQUA + "You are now a runner");
                 Team.getTeam("Runner").add(onlinePlayer);
-                runners.add(ChatColor.DARK_GRAY + " - " + newPlayer);
+                runners.add(ChatColor.BLUE + " - " + newPlayer);
                 gameManager.runnerTeamSize += 1;
                 if (hunters.contains(joinedName)) {
                     hunters.remove(joinedName);

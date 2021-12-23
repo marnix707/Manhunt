@@ -105,7 +105,7 @@ public class DeathListener implements Listener {
 
 			//Lose manhunt no lives left
 			if (ManhuntPlugin.respawns == 0) {
-				Bukkit.broadcastMessage(prefix + ChatColor.GOLD + "" + p.getName() + ChatColor.RED + " has lost the manhunt!");
+				Bukkit.broadcastMessage(prefix + ChatColor.AQUA + "" + p.getName() + ChatColor.RED + " has lost the manhunt!");
 				Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(gameManager.getPlugin(), new Runnable() {
 					public void run() {
 						p.teleport(Bukkit.getServer().getWorlds().get(0).getSpawnLocation());
@@ -152,6 +152,7 @@ public class DeathListener implements Listener {
 					p.playSound(p.getLocation(), Sound.valueOf(config.getString("runner-death-sound")), 10, 1);
 					p.sendMessage(prefix + ChatColor.GOLD + "You respawned " + (int) distance + " blocks away");
 					p.sendMessage(prefix + ChatColor.RED + ManhuntPlugin.respawns + " live(s) left!");
+					gameManager.getRespawnEffect().respawnParticle(p);
 				}
 			}, 1);
 		}
@@ -236,8 +237,12 @@ public class DeathListener implements Listener {
 		if (randomNegative == 0) {
 			randomNegative++;
 		}
+		int randomNegative2 = random.nextInt(2) - 1;
+		if (randomNegative2 == 0) {
+			randomNegative2++;
+		}
 
-		Location randomLoc = deathLoc.add(randomMultiple / randomNegative, 0, randomMultiple / randomNegative);
+		Location randomLoc = deathLoc.add(randomMultiple / randomNegative, 0, randomMultiple / randomNegative2);
 		int x = randomLoc.getBlockX();
 		int z = randomLoc.getBlockZ();
 		int y = randomLoc.getWorld().getHighestBlockYAt(x, z);

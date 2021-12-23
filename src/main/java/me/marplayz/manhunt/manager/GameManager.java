@@ -33,7 +33,6 @@ public class GameManager {
 	private KitsMenu kitsMenu;
 	private GameStartCountdownTask gameStartCountdownTask;
 	private DeathListener deathListener;
-	private final String prefix = ManhuntPlugin.prefix;
 	private ManhuntCommand manhuntCommand;
 	private GameModeManager gameModeManager;
 	private GameModeMenu gameMode;
@@ -69,6 +68,8 @@ public class GameManager {
 	public int hunterTeamSize = 0;
 	public int runnerTeamSize = 0;
 
+	private final String prefix = ManhuntPlugin.prefix;
+
 	public void setGameState(GameState gameState) {
 		if (this.gameState == gameState) return;
 		if (this.gameState == GameState.ACTIVE && gameState == GameState.STARTING) {
@@ -80,7 +81,7 @@ public class GameManager {
 
 		switch (gameState) {
 			case LOBBY:
-				System.out.println(prefix + "Lobby");
+				System.out.println(prefix + ChatColor.GOLD + "Lobby");
 				plugin.worlds.get(0).setDifficulty(Difficulty.PEACEFUL);
 				for (Player p : Bukkit.getOnlinePlayers()) {
 					playerManager.giveLobbyKit(p);
@@ -101,7 +102,7 @@ public class GameManager {
 				break;
 
 			case ACTIVE:
-				System.out.println(prefix + "Match started");
+				System.out.println(prefix + ChatColor.GOLD + "Match started");
 				plugin.worlds.get(0).setDifficulty(Difficulty.HARD);
 				getInfoBoard().updateScoreboard();
 
@@ -138,7 +139,7 @@ public class GameManager {
 				break;
 
 			case WON:
-				System.out.println(prefix + "Match won.");
+				System.out.println(prefix + ChatColor.GOLD + "Match won.");
 				for (Player player : Bukkit.getOnlinePlayers()) {
 					player.teleport(plugin.worlds.get(0).getSpawnLocation());
 				}
