@@ -98,7 +98,7 @@ public class DeathListener implements Listener {
 				public void run() {
 					p.spigot().respawn();
 				}
-			}, 1);
+			}, 0);
 			runnerDeathsInt += 1;
 			ManhuntPlugin.respawns--;
 			gameManager.getInfoBoard().updateScoreboard();
@@ -106,12 +106,14 @@ public class DeathListener implements Listener {
 			//Lose manhunt no lives left
 			if (ManhuntPlugin.respawns == 0) {
 				Bukkit.broadcastMessage(prefix + ChatColor.AQUA + "" + p.getName() + ChatColor.RED + " has lost the manhunt!");
+				p.sendTitle(ChatColor.RED + "You lost!", ChatColor.BLUE + "Better luck next time", 0, 60, 20);
+				event.getDrops().clear();
 				Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(gameManager.getPlugin(), new Runnable() {
 					public void run() {
 						p.teleport(Bukkit.getServer().getWorlds().get(0).getSpawnLocation());
 						gameManager.setGameState(GameState.WON);
 					}
-				}, 2);
+				}, 1);
 				return;
 			}
 
@@ -154,7 +156,7 @@ public class DeathListener implements Listener {
 					p.sendMessage(prefix + ChatColor.RED + ManhuntPlugin.respawns + " live(s) left!");
 					gameManager.getRespawnEffect().respawnParticle(p);
 				}
-			}, 1);
+			}, 0);
 		}
 	}
 
@@ -169,7 +171,7 @@ public class DeathListener implements Listener {
 				public void run() {
 					p.spigot().respawn();
 				}
-			}, 1);
+			}, 0);
 
 			hunterDeathsInt++;
 			//If killed by runner then give bonus
@@ -218,7 +220,7 @@ public class DeathListener implements Listener {
 					p.teleport(newLocation);
 					p.sendMessage(prefix + ChatColor.GOLD + "You respawned " + (int) distance + " blocks away");
 				}
-			}, 1);
+			}, 0);
 		}
 	}
 

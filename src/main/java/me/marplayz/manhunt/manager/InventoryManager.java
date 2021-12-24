@@ -5,6 +5,7 @@ import me.marplayz.manhunt.util.CustomConfigs;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -84,7 +85,8 @@ public class InventoryManager {
 		ItemStack menuSword = new ItemStack(Material.NETHERITE_SWORD);
 		ItemMeta menuSwordMeta = menuSword.getItemMeta();
 
-		menuSwordMeta.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD + "Open Menu" + ChatColor.GRAY + "" + " (Right Click)");
+		menuSwordMeta.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "Open Menu" + ChatColor.GRAY + "" + " (Right Click)");
+		menuSwordMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 		menuSword.setItemMeta(menuSwordMeta);
 
 

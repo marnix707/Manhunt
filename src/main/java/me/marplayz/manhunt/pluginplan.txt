@@ -3,13 +3,14 @@ Plugin Ideas:
  - Shop/Coin/Xp System
  - Tabcompletion - Team Chat
  - Runner Fortress Tracker (Not possible?)
- - Enderdragon Killed Title/Fireworks
+ - Hunter Title
  - creative mode with kits
  - Animations on scoreboard? (pls dont)
  - NMS version control
  - config comments [Difficult -> Custom YAML config]
  - Multiplayer lives (personalised scoreboard)
  - hunter lives
+
  - regional respawn gui with hunter portal options
 
  reward ideas:
@@ -18,7 +19,6 @@ Plugin Ideas:
  - speed
 
 Bugs:
- - dead in end
  - portal compass end portal?
  - Nicknames?
 
@@ -34,9 +34,11 @@ Current Features:
  - Respawn and Reward System
  - Advanced Compass Locator
  - Action Bar Cooldown
+ - Reload World
 
 Current Permissions:
  - manhunt.reload
+ - manhunt.reload.world
  - manhunt.settings
  - manhunt.stop
 

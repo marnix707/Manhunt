@@ -46,13 +46,13 @@ public class PlayerManager {
 					+ ChatColor.BOLD;
 
 			List<String> itemsList = CustomConfigs.get().getStringList("reward.runner.items");
-			if (itemsList.size() <= reward){
+			if (itemsList.size() <= reward) {
 				killer.sendMessage(prefix + ChatColor.BLUE + "No more rewards left.");
 				return;
 			}
 			String[] split = itemsList.get(reward).split(";");
 			killer.getInventory().addItem(new ItemStack(Material.valueOf(split[0]), Integer.parseInt(split[1])));
-			killer.sendMessage(rewardMessage +split[1] + " " + split[0]);
+			killer.sendMessage(rewardMessage + split[1] + " " + split[0]);
 			reward++;
 		}
 	}
@@ -90,7 +90,11 @@ public class PlayerManager {
 		p.sendMessage(StartMessageRunner);
 		healPlayer(p);
 		p.getInventory().clear();
-		p.teleport(Bukkit.getServer().getWorlds().get(0).getSpawnLocation());
+		try {
+			p.teleport(Bukkit.getServer().getWorld("Manhunt").getSpawnLocation());
+		} catch (NullPointerException e) {
+			System.out.println(ChatColor.RED + "No manhunt world found");
+		}
 		p.getWorld().setTime(0);
 
 		p.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(getConfig().getInt("runner-max-health"));
@@ -126,13 +130,17 @@ public class PlayerManager {
 		p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20 * potionEffectTime, 50));
 		p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 20 * potionEffectTime, 50));
 		p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 20 * potionEffectTime, 50));
-		p.setNoDamageTicks(20*potionEffectTime);
+		p.setNoDamageTicks(20 * potionEffectTime);
 
 		p.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(getConfig().getInt("hunter-max-health"));
 
 
 		p.getInventory().clear();
-		p.teleport(Bukkit.getServer().getWorlds().get(0).getSpawnLocation());
+		try {
+			p.teleport(Bukkit.getServer().getWorld("Manhunt").getSpawnLocation());
+		} catch (NullPointerException e) {
+			System.out.println(ChatColor.RED + "No manhunt world found");
+		}
 		gameManager.getInventoryManager().GiveHunterKit(p);
 
 		//sounds
@@ -142,7 +150,7 @@ public class PlayerManager {
 
 		//particles
 		p.spawnParticle(Particle.EXPLOSION_HUGE, p.getLocation(), 2);
-		if(potionEffectTime == 0)return;
+		if (potionEffectTime == 0) return;
 	}
 
 	public void resetRewards() {

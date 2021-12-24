@@ -33,6 +33,7 @@ public final class ManhuntPlugin extends JavaPlugin {
 		super.onEnable();
 		setupConfig();
 		worlds = getServer().getWorlds();
+		worlds.get(0).setTime(6000);
 
 		//Command
 		this.getCommand("Manhunt").setExecutor(new ManhuntCommand(gameManager));

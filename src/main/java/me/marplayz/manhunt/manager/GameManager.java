@@ -12,8 +12,12 @@ import me.marplayz.manhunt.commands.ManhuntCommand;
 import me.marplayz.manhunt.tasks.DistanceCheckTask;
 import me.marplayz.manhunt.tasks.GameStartCountdownTask;
 import me.marplayz.manhunt.tasks.HunterStartCountdownTask;
+import me.marplayz.manhunt.util.WorldGeneration;
 import org.bukkit.*;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.meta.FireworkMeta;
 import org.checkerframework.checker.units.qual.C;
 
 import static me.marplayz.manhunt.listeners.DeathListener.runnerDeathsInt;
@@ -21,26 +25,22 @@ import static me.marplayz.manhunt.listeners.DeathListener.runnerDeathsInt;
 public class GameManager {
 
 	public static int hunterStartCountdown;
-	private ManhuntPlugin plugin;
-	private PlayerManager playerManager;
-	private InfoBoard infoBoard;
-	private EMPListener EMPListener;
-	private InventoryManager inventoryManager;
+	private final ManhuntPlugin plugin;
+	private final PlayerManager playerManager;
+	private final InfoBoard infoBoard;
+	private final EMPListener EMPListener;
+	private final InventoryManager inventoryManager;
 	private final SettingMenu settingMenu;
-	private MainMenu mainMenu;
+	private final MainMenu mainMenu;
 	private ManhuntCommand getManhuntCommand;
-	private PlayerJoinListener playerJoinListener;
-	private KitsMenu kitsMenu;
+	private final KitsMenu kitsMenu;
 	private GameStartCountdownTask gameStartCountdownTask;
-	private DeathListener deathListener;
 	private ManhuntCommand manhuntCommand;
-	private GameModeManager gameModeManager;
-	private GameModeMenu gameMode;
-	private CompassMenu compassMenu;
-	private CompassListener compassListener;
-	private DragonListener dragonListener;
-	private RespawnEffect respawnEffect;
-	private CompassCooldownTask compassCooldownTask;
+	private final GameModeManager gameModeManager;
+	private final CompassMenu compassMenu;
+	private final CompassListener compassListener;
+	private final RespawnEffect respawnEffect;
+	private final WorldGeneration worldGeneration;
 
 	private GameState gameState = GameState.LOBBY;
 
@@ -52,17 +52,18 @@ public class GameManager {
 		this.inventoryManager = new InventoryManager(this);
 		this.settingMenu = new SettingMenu(this);
 		this.mainMenu = new MainMenu(this);
-		this.playerJoinListener = new PlayerJoinListener(this);
+		PlayerJoinListener playerJoinListener = new PlayerJoinListener(this);
 		this.infoBoard = new InfoBoard(this);
 		this.gameModeManager = new GameModeManager(this);
-		this.gameMode = new GameModeMenu(this);
-		this.deathListener = new DeathListener(this);
+		GameModeMenu gameMode = new GameModeMenu(this);
+		DeathListener deathListener = new DeathListener(this);
 		this.kitsMenu = new KitsMenu(this);
 		this.compassMenu = new CompassMenu(this);
 		this.compassListener = new CompassListener(this);
-		this.dragonListener = new DragonListener(this);
+		DragonListener dragonListener = new DragonListener(this);
 		this.respawnEffect = new RespawnEffect(this);
-		this.compassCooldownTask = new CompassCooldownTask(this);
+		CompassCooldownTask compassCooldownTask = new CompassCooldownTask(this);
+		this.worldGeneration = new WorldGeneration(this);
 	}
 
 	public int hunterTeamSize = 0;
@@ -135,13 +136,34 @@ public class GameManager {
 
 			case STOP:
 				Bukkit.broadcastMessage(prefix + ChatColor.GOLD + "Match ended.");
+				for (Player player : Bukkit.getOnlinePlayers()) {
+					player.teleport(plugin.worlds.get(0).getSpawnLocation());
+				}
 				stopCurrentGame();
 				break;
 
 			case WON:
 				System.out.println(prefix + ChatColor.GOLD + "Match won.");
+				World lobbyWorld = plugin.worlds.get(0);
+				Location lobbyLocation = lobbyWorld.getSpawnLocation();
 				for (Player player : Bukkit.getOnlinePlayers()) {
-					player.teleport(plugin.worlds.get(0).getSpawnLocation());
+					if(!Team.hasTeam(player)){return;}
+
+					player.teleport(lobbyLocation);
+					player.playSound(lobbyLocation, Sound.ENTITY_PLAYER_LEVELUP, 10, 1);
+					player.playSound(lobbyLocation, Sound.ENTITY_FIREWORK_ROCKET_TWINKLE, 10, 1);
+					//Fireworks
+					Firework startFirework = (Firework) lobbyWorld.spawnEntity(lobbyLocation, EntityType.FIREWORK);
+					FireworkMeta startFireworkMeta = startFirework.getFireworkMeta();
+					startFireworkMeta.addEffect(FireworkEffect.builder()
+							.flicker(true)
+							.trail(true)
+							.with(FireworkEffect.Type.BALL_LARGE)
+							.withColor(Color.RED)
+							.withFade(Color.BLUE)
+							.build());
+					startFireworkMeta.setPower(1);
+					startFirework.setFireworkMeta(startFireworkMeta);
 				}
 				stopCurrentGame();
 				break;
@@ -206,7 +228,9 @@ public class GameManager {
 		return infoBoard;
 	}
 
-	public CompassListener getCompassListener(){return compassListener;}
+	public CompassListener getCompassListener() {
+		return compassListener;
+	}
 
 
 	//menus
@@ -222,9 +246,13 @@ public class GameManager {
 		return settingMenu;
 	}
 
-	public CompassMenu getCompassMenu(){return compassMenu;}
+	public CompassMenu getCompassMenu() {
+		return compassMenu;
+	}
 
-	public GameModeManager getGameModeManager(){return  gameModeManager;}
+	public GameModeManager getGameModeManager() {
+		return gameModeManager;
+	}
 
 
 	//Tasks
@@ -242,5 +270,11 @@ public class GameManager {
 		return manhuntCommand;
 	}
 
-	public RespawnEffect getRespawnEffect(){return respawnEffect;}
+	public RespawnEffect getRespawnEffect() {
+		return respawnEffect;
+	}
+
+	public WorldGeneration getWorldGeneration() {
+		return worldGeneration;
+	}
 }

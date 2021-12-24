@@ -11,6 +11,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -40,6 +41,7 @@ public class KitsMenu implements Listener {
 				ChatColor.BLUE + "Hunter Starts with " + name + " " + ChatColor.GOLD + "" + ChatColor.BOLD + gameManager.getPlugin().getConfig().getString(hunterConfig).toUpperCase(), "",
 				ChatColor.DARK_GRAY + "" + ChatColor.ITALIC + "Left click to change runner",
 				ChatColor.DARK_GRAY + "" + ChatColor.ITALIC + "Right click to change hunter"));
+		itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 		item.setItemMeta(itemMeta);
 		return item;
 	}

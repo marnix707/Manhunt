@@ -60,6 +60,7 @@ public class MainMenu implements Listener {
 		runnerMeta.setDisplayName(ChatColor.DARK_GRAY + "" + ChatColor.ITALIC + "Click To Join");
 		runnerMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 		runnerMeta.setLore(runners);
+		runnerMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
 		runnerItem.setItemMeta(runnerMeta);
 
 		//Crossbow for hunter
@@ -123,10 +124,10 @@ public class MainMenu implements Listener {
 			menuMain.setItem(49, green0Item);
 		}
 
-		menuMain.setItem(29, hunterItem);
-		menuMain.setItem(33, runnerItem);
-		menuMain.setItem(38, hunterInfoItem);
-		menuMain.setItem(42, runnerInfoItem);
+		menuMain.setItem(28, hunterItem);
+		menuMain.setItem(34, runnerItem);
+		menuMain.setItem(29, hunterInfoItem);
+		menuMain.setItem(33, runnerInfoItem);
 		if (p.hasPermission("manhunt.settings")) {
 			menuMain.setItem(31, bookItem);
 		} else {
