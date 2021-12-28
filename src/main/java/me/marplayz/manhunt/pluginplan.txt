@@ -10,7 +10,8 @@ Plugin Ideas:
  - config comments [Difficult -> Custom YAML config]
  - Multiplayer lives (personalised scoreboard)
  - hunter lives
-
+ - vectorize
+ - nearby
  - regional respawn gui with hunter portal options
 
  reward ideas:

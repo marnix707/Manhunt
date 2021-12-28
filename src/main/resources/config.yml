@@ -36,11 +36,11 @@ compass-cooldown-amount: 30
 compass-portal: true
 compass-end-portal: true
 
-#Allow to start without enough people
+#Allow to start without enough people (for testing settings)
 force-start: true
 
-#world difficulty
-difficulty: NORMAL
+#Manhunt world difficulty
+difficulty: HARD
 
 #Start sound [All caps] i.e. ENTITY_WITHER_DEATH, AMBIENT_CAVE, ENTITY_PLAYER_LEVELUP, BLOCK_END_PORTAL_SPAWN
 start-sound: ENTITY_PLAYER_LEVELUP

@@ -76,6 +76,7 @@ public class RespawnEffect {
 
 	public void empParticle(Player player) {
 		empTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(gameManager.getPlugin(), new Runnable() {
+			int time = 20*3;
 			//PARTICLE START
 			final Location location = player.getLocation();
 			final Location location2 = player.getLocation();
@@ -85,6 +86,9 @@ public class RespawnEffect {
 
 			@Override
 			public void run() {
+				if (time <= 0) {
+					Bukkit.getScheduler().cancelTask(empTask);
+				}
 				double x = radius * Math.cos(y[0]);
 				double z = radius * Math.sin(y[0]);
 				for (Player players : Bukkit.getOnlinePlayers()) {
@@ -92,6 +96,7 @@ public class RespawnEffect {
 					players.spawnParticle(Particle.REDSTONE, location2.add(z, y[0], x), 200, new Particle.DustOptions(Color.YELLOW, 5));
 					y[0] = y[0] + 0.1;
 				}
+				time--;
 			}
 		}, 0, 1);
 	}

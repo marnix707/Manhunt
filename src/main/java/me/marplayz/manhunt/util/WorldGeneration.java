@@ -13,6 +13,7 @@ public class WorldGeneration {
 
 	private final GameManager gameManager;
 
+
 	public WorldGeneration(GameManager gameManager){
 		this.gameManager = gameManager;
 	}
@@ -37,9 +38,18 @@ public class WorldGeneration {
 			System.out.println("World deleted");
 		}
 		sender.sendMessage(prefix + ChatColor.GREEN + "Creating new world... (This may take a while)");
-		World NewWorld = gameManager.getPlugin().getServer().createWorld(new WorldCreator("Manhunt"));
+		createNewWorld("Manhunt");
+
+
 		System.out.println("New world created");
 		sender.sendMessage(prefix + ChatColor.GREEN + "World created");
+	}
+
+	public void createNewWorld(String worldName){
+		WorldCreator worldCreator = WorldCreator.name(worldName);
+		worldCreator.type(WorldType.NORMAL);
+		worldCreator.generateStructures(true);
+		gameManager.getPlugin().getServer().createWorld(worldCreator);
 	}
 
 	public boolean deleteDirectory(File path) {

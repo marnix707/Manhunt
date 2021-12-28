@@ -104,7 +104,11 @@ public class GameManager {
 
 			case ACTIVE:
 				System.out.println(prefix + ChatColor.GOLD + "Match started");
-				plugin.worlds.get(0).setDifficulty(Difficulty.HARD);
+				if(Bukkit.getWorld("Manhunt") != null && plugin.getConfig().getString("difficulty") != null) {
+					Bukkit.getWorld("Manhunt").setDifficulty(Difficulty.valueOf(plugin.getConfig().getString("difficulty")));
+				} else {
+					Bukkit.broadcastMessage(prefix + ChatColor.RED + "Manhunt world not generated, please use /mh reload world");
+				}
 				getInfoBoard().updateScoreboard();
 
 				//Bossbar
