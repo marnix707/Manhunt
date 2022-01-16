@@ -2,12 +2,11 @@ package me.marplayz.manhunt.listeners;
 
 import me.marplayz.manhunt.ManhuntPlugin;
 import me.marplayz.manhunt.manager.GameManager;
-import me.marplayz.manhunt.manager.GameState;
+import me.marplayz.manhunt.states.GameState;
+import me.marplayz.manhunt.util.Team;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -15,7 +14,7 @@ import org.bukkit.event.entity.EntityDeathEvent;
 
 public class DragonListener implements Listener {
 
-	private GameManager gameManager;
+	private final GameManager gameManager;
 
 	public DragonListener(GameManager gameManager) {
 		this.gameManager = gameManager;
@@ -35,6 +34,14 @@ public class DragonListener implements Listener {
 		event.getEntity().setSilent(true);
 		Bukkit.broadcastMessage(prefix + ChatColor.GOLD + winner.getDisplayName() + ChatColor.GREEN + " Has won the game!");
 		winner.sendTitle(ChatColor.GREEN + "You won!", ChatColor.BLUE + "", 0, 60, 20);
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			if (!Team.hasTeam(player)) {
+				return;
+			}
+			if (Team.getTeam(player).getName() != null && Team.getTeam(player).getName().equalsIgnoreCase("Hunter")) {
+				player.sendTitle(ChatColor.RED + "You lost!", ChatColor.BLUE + "Better luck next time", 0, 60, 20);
+			}
+		}
 		gameManager.setGameState(GameState.WON);
 	}
 }

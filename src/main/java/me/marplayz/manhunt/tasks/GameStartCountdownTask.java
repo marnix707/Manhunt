@@ -2,7 +2,7 @@ package me.marplayz.manhunt.tasks;
 
 import me.marplayz.manhunt.ManhuntPlugin;
 import me.marplayz.manhunt.manager.GameManager;
-import me.marplayz.manhunt.manager.GameState;
+import me.marplayz.manhunt.states.GameState;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;

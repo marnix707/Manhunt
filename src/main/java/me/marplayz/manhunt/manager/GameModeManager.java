@@ -1,6 +1,6 @@
 package me.marplayz.manhunt.manager;
 
-import me.marplayz.manhunt.GUI.GameModeState;
+import me.marplayz.manhunt.states.GameModeState;
 import org.bukkit.configuration.file.FileConfiguration;
 
 public class GameModeManager {

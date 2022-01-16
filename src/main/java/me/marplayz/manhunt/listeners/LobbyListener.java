@@ -1,7 +1,7 @@
 package me.marplayz.manhunt.listeners;
 
 import me.marplayz.manhunt.manager.GameManager;
-import me.marplayz.manhunt.manager.GameState;
+import me.marplayz.manhunt.states.GameState;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

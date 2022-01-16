@@ -1,7 +1,7 @@
 package me.marplayz.manhunt.listeners;
 
 import me.marplayz.manhunt.commands.ManhuntCommand;
-import me.marplayz.manhunt.manager.GameState;
+import me.marplayz.manhunt.states.GameState;
 import me.marplayz.manhunt.util.InfoBoard;
 import me.marplayz.manhunt.ManhuntPlugin;
 import me.marplayz.manhunt.manager.GameManager;

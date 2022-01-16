@@ -3,7 +3,7 @@ package me.marplayz.manhunt.listeners;
 import me.marplayz.manhunt.GUI.SettingMenu;
 import me.marplayz.manhunt.ManhuntPlugin;
 import me.marplayz.manhunt.manager.GameManager;
-import me.marplayz.manhunt.manager.GameState;
+import me.marplayz.manhunt.states.GameState;
 import me.marplayz.manhunt.tasks.EmpTimerTask;
 import me.marplayz.manhunt.util.Team;
 import org.bukkit.*;
@@ -13,7 +13,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Objects;
 

@@ -672,7 +672,7 @@ public class SettingMenu implements Listener {
 					String seconds = event.getCurrentItem().getItemMeta().getDisplayName();
 					int sec = Integer.parseInt(seconds);
 					gameManager.getPlugin().getConfig().set("hunter-cooldown", sec);
-					gameManager.getCompassListener().compassCooldown = sec * 10;
+					gameManager.getTrackerManager().compassCooldown = sec * 10;
 					gameManager.getPlugin().saveConfig();
 					gameManager.getPlugin().reloadConfig();
 					gameManager.getPlugin().hunterCountdownConfig = sec;

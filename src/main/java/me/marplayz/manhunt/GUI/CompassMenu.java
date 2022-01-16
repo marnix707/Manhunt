@@ -18,7 +18,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 
 public class CompassMenu implements Listener {
 
-    private GameManager gameManager;
+    private final GameManager gameManager;
 
     public CompassMenu(GameManager gameManager) {
         this.gameManager = gameManager;
@@ -59,7 +59,7 @@ public class CompassMenu implements Listener {
 
             String targetName = event.getCurrentItem().getItemMeta().getDisplayName();
             try {
-                gameManager.getCompassListener().setCompassTarget(player, Bukkit.getPlayer(targetName));
+                gameManager.getTrackerManager().setCompassTarget(player, Bukkit.getPlayer(targetName));
                 event.getView().close();
             } catch (Exception e){
                 e.printStackTrace();

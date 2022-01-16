@@ -2,6 +2,7 @@ package me.marplayz.manhunt;
 
 import me.marplayz.manhunt.GUI.*;
 import me.marplayz.manhunt.commands.ManhuntCommand;
+import me.marplayz.manhunt.manager.TrackerManager;
 import me.marplayz.manhunt.util.CustomConfigs;
 import me.marplayz.manhunt.listeners.*;
 import me.marplayz.manhunt.manager.GameManager;
@@ -47,7 +48,7 @@ public final class ManhuntPlugin extends JavaPlugin {
 		getServer().getPluginManager().registerEvents(new KitsMenu(gameManager), this);
 		getServer().getPluginManager().registerEvents(new EMPListener(gameManager), this);
 		getServer().getPluginManager().registerEvents(new PortalListener(gameManager), this);
-		getServer().getPluginManager().registerEvents(new CompassListener(gameManager), this);
+		getServer().getPluginManager().registerEvents(new TrackerListener(gameManager), this);
 		getServer().getPluginManager().registerEvents(new PlayerJoinListener(gameManager), this);
 		getServer().getPluginManager().registerEvents(new DeathListener(gameManager), this);
 		getServer().getPluginManager().registerEvents(new DragonListener(gameManager), this);
@@ -94,7 +95,7 @@ public final class ManhuntPlugin extends JavaPlugin {
 		respawns = getConfig().getInt("runner-respawns");
 
 		this.gameManager = new GameManager(this);
-		gameManager.getCompassListener().compassCooldown = compassCooldownConfig *10;
+		gameManager.getTrackerManager().compassCooldown = compassCooldownConfig *10;
 		final int respawnsFinal = respawns;
 
 	}

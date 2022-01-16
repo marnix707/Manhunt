@@ -3,7 +3,7 @@ package me.marplayz.manhunt.GUI;
 import me.marplayz.manhunt.ManhuntPlugin;
 import me.marplayz.manhunt.commands.ManhuntCommand;
 import me.marplayz.manhunt.manager.GameManager;
-import me.marplayz.manhunt.manager.GameState;
+import me.marplayz.manhunt.states.GameState;
 import me.marplayz.manhunt.util.Team;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

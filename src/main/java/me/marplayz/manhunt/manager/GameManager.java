@@ -3,6 +3,7 @@ package me.marplayz.manhunt.manager;
 import me.marplayz.manhunt.GUI.*;
 import me.marplayz.manhunt.listeners.*;
 import me.marplayz.manhunt.particles.RespawnEffect;
+import me.marplayz.manhunt.states.GameState;
 import me.marplayz.manhunt.tasks.CompassCooldownTask;
 import me.marplayz.manhunt.util.InfoBoard;
 import me.marplayz.manhunt.ManhuntPlugin;
@@ -18,7 +19,6 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.FireworkMeta;
-import org.checkerframework.checker.units.qual.C;
 
 import static me.marplayz.manhunt.listeners.DeathListener.runnerDeathsInt;
 
@@ -38,7 +38,7 @@ public class GameManager {
 	private ManhuntCommand manhuntCommand;
 	private final GameModeManager gameModeManager;
 	private final CompassMenu compassMenu;
-	private final CompassListener compassListener;
+	private final TrackerManager trackerManager;
 	private final RespawnEffect respawnEffect;
 	private final WorldGeneration worldGeneration;
 
@@ -59,7 +59,7 @@ public class GameManager {
 		DeathListener deathListener = new DeathListener(this);
 		this.kitsMenu = new KitsMenu(this);
 		this.compassMenu = new CompassMenu(this);
-		this.compassListener = new CompassListener(this);
+		this.trackerManager = new TrackerManager(this);
 		DragonListener dragonListener = new DragonListener(this);
 		this.respawnEffect = new RespawnEffect(this);
 		CompassCooldownTask compassCooldownTask = new CompassCooldownTask(this);
@@ -151,7 +151,6 @@ public class GameManager {
 				World lobbyWorld = plugin.worlds.get(0);
 				Location lobbyLocation = lobbyWorld.getSpawnLocation();
 				for (Player player : Bukkit.getOnlinePlayers()) {
-					if(!Team.hasTeam(player)){return;}
 
 					player.teleport(lobbyLocation);
 					player.playSound(lobbyLocation, Sound.ENTITY_PLAYER_LEVELUP, 10, 1);
@@ -175,14 +174,6 @@ public class GameManager {
 	}
 
 	public void stopCurrentGame() {
-
-		//delayed cancel task in order to update bossbars to remove themselfs
-/*		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
-			@Override
-			public void run() {
-				Bukkit.getScheduler().cancelTasks(plugin);
-			}
-		},21);*/
 
 		for (Player players : Bukkit.getOnlinePlayers()) {
 			try {
@@ -232,8 +223,8 @@ public class GameManager {
 		return infoBoard;
 	}
 
-	public CompassListener getCompassListener() {
-		return compassListener;
+	public TrackerManager getTrackerManager() {
+		return trackerManager;
 	}
 
 

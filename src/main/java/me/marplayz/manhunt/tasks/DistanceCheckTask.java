@@ -1,7 +1,7 @@
 package me.marplayz.manhunt.tasks;
 
 import me.marplayz.manhunt.ManhuntPlugin;
-import me.marplayz.manhunt.manager.GameState;
+import me.marplayz.manhunt.states.GameState;
 import me.marplayz.manhunt.util.Team;
 import me.marplayz.manhunt.manager.GameManager;
 import org.bukkit.Bukkit;
